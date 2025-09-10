@@ -11,7 +11,11 @@
         "vlucas/phpdotenv": "^5.4",
         "samdark/yii2-psr-log-target": "*",
         "monolog/monolog": "*",
-        "sentry/sdk": "^3.1"
+        "sentry/sdk": "^3.1",
+        "schmunk42/yii2-giiant": "@dev",
+        "yiisoft/yii2-queue": "^2.3",
+        "yiisoft/yii2-redis": "^2.0",
+        "bluerhinos/phpmqtt": "^1.0"
     },
     "require-dev": {
         "yidas/yii2-bower-asset": "~2.0.13",
@@ -35,7 +39,8 @@
     "config": {
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
-            "yiisoft/yii2-composer": true
+            "yiisoft/yii2-composer": true,
+            "php-http/discovery": true
         }
     }
 }
