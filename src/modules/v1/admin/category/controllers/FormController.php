@@ -1,12 +1,12 @@
 <?php
 
-namespace app\modules\v1\admin\brand\controllers;
+namespace app\modules\v1\admin\category\controllers;
 
 use Yii;
 use app\helpers\ResponseBuilder;
-use app\modules\v1\admin\brand\models\Brand;
-use app\modules\v1\admin\brand\models\form\BrandForm;
-use app\modules\v1\admin\brand\models\search\BrandSearch;
+use app\modules\v1\admin\category\models\Category;
+use app\modules\v1\admin\category\models\form\CategoryForm;
+use app\modules\v1\admin\category\models\search\CategorySearch;
 
 class FormController extends Controller
 {
@@ -17,7 +17,7 @@ class FormController extends Controller
         if ($request->isPost) {
             $data = $request->post();
             if (!empty($data)) {
-                $brand = new BrandForm();
+                $brand = new CategoryForm();
                 $brand->load($data);
                 if ($brand->validate() && $brand->save()) {
                     return ResponseBuilder::json(true, $brand, "CREATE SUCCESS! ");
@@ -37,7 +37,7 @@ class FormController extends Controller
             $data = $request->post();
             $id = $request->post('id');
             if (!empty($id)) {
-                $brand = BrandForm::find()->where(['id' => $id])->one();
+                $brand = CategoryForm::find()->where(['id' => $id])->one();
                 if (!empty($brand)) {
                     $brand->load($data);
                     if ($brand->validate() && $brand->save()) {
@@ -59,9 +59,9 @@ class FormController extends Controller
             $data = $request->post();
             $id = $data['id'];
             if (!empty($id)) {
-                $brand = Brand::find()->where(['id' => $id])->one();
+                $brand = Category::find()->where(['id' => $id])->one();
                 if (!empty($brand)) {
-                    $brand->status = Brand::STATUS_DELETED;
+                    $brand->status = Category::STATUS_DELETED;
                     $brand->save(false);
                     return ResponseBuilder::json(true, $brand, "UPDATE SUCCESS! ");
                 }
@@ -78,7 +78,7 @@ class FormController extends Controller
         if ($request->isGet) {
             $id = $request->get('id');
             if (!empty($id)) {
-                $brand = Brand::find()->where(['id' => $id])->one();
+                $brand = Category::find()->where(['id' => $id])->one();
                 if (!empty($brand)) {
                     return ResponseBuilder::json(true, $brand, "GET SUCCESS! ");
                 }
@@ -91,6 +91,6 @@ class FormController extends Controller
 
     public function actionIndex()
     {
-        return ResponseBuilder::json(true, (new BrandSearch())->search(Yii::$app->request->queryParams));
+        return ResponseBuilder::json(true, (new CategorySearch())->search(Yii::$app->request->queryParams));
     }
 }
