@@ -18,6 +18,7 @@ use \app\models\UserQuery;
  * @property string $auth_key
  * @property string $email
  * @property string $username
+ * @property string $phone
  * @property string $oauth_client
  * @property string $oauth_client_user_id
  * @property integer $status
@@ -59,11 +60,11 @@ abstract class User extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['access_token', 'token', 'auth_key', 'email', 'username', 'oauth_client', 'oauth_client_user_id', 'status', 'password_hash', 'logged_at'], 'default', 'value' => null],
+            [['access_token', 'token', 'auth_key', 'email', 'username', 'phone', 'oauth_client', 'oauth_client_user_id', 'status', 'password_hash', 'logged_at'], 'default', 'value' => null],
             [['is_verify'], 'default', 'value' => 0],
             [['status', 'is_verify'], 'integer'],
             [['logged_at'], 'safe'],
-            [['access_token', 'token', 'auth_key', 'email', 'username', 'oauth_client', 'oauth_client_user_id', 'password_hash'], 'string', 'max' => 255]
+            [['access_token', 'token', 'auth_key', 'email', 'username', 'phone', 'oauth_client', 'oauth_client_user_id', 'password_hash'], 'string', 'max' => 255]
         ]);
     }
 
@@ -79,6 +80,7 @@ abstract class User extends \yii\db\ActiveRecord
             'auth_key' => 'Auth Key',
             'email' => 'Email',
             'username' => 'Username',
+            'phone' => 'Phone',
             'oauth_client' => 'Oauth Client',
             'oauth_client_user_id' => 'Oauth Client User ID',
             'status' => 'Status',

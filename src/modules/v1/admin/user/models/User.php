@@ -6,7 +6,6 @@ use app\models\User as BaseUser;
 
 class User extends BaseUser
 {
-
     public function fields()
     {
         return [
@@ -24,7 +23,7 @@ class User extends BaseUser
                 }, $this->authAssignment));
             },
             'phone',
-//            "profile" => "profile",
+            "profile" => "profile",
         ];
     }
 }

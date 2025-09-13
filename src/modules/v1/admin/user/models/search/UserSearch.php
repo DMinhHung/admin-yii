@@ -50,7 +50,7 @@ class UserSearch extends User
             ->joinWith("profile")
             ->joinWith("authAssignment")
             ->notDelete()
-            ->groupBy("users.id");
+            ->groupBy("user.id");
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([

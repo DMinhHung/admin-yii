@@ -2,10 +2,11 @@
 
 use yii\db\Migration;
 
-class m250909_130330_create_table_user extends Migration
+class m250911_032722_create_table_item_variant extends Migration
 {
     /**
      * {@inheritdoc}
+     * @throws \yii\base\Exception
      */
     public function safeUp()
     {
@@ -13,23 +14,18 @@ class m250909_130330_create_table_user extends Migration
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
         }
-        $this->createTable('{{%user}}', [
+        $this->createTable('{{%item_variant}}', [
             "id" => $this->primaryKey(),
-            "access_token" => $this->string(),
-            "token" => $this->string(),
-            "auth_key" => $this->string(),
-            "email" => $this->string(),
-            "username" => $this->string(),
-            "phone" => $this->string(),
-            "oauth_client" => $this->string(),
-            "oauth_client_user_id" => $this->string(),
+            "item_id" => $this->integer(),
+            "sku" => $this->string(),
+            "price" => $this->double(),
+            "stock" => $this->integer(),
+            "attributes" => $this->json(),
             "status" => $this->integer(),
-            "is_verify" => $this->boolean()->defaultValue(0),
-            "password_hash" => $this->string(),
-            "logged_at" => $this->dateTime(),
             "created_at" => $this->dateTime(),
             "updated_at" => $this->dateTime()
         ], $tableOptions);
+        $this->createIndex("idx-item_variant-item_id", "item_variant", "item_id");
     }
 
     /**
@@ -37,7 +33,7 @@ class m250909_130330_create_table_user extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%user}}');
+        $this->dropTable('{{%item_variant}}');
     }
 
     /*
@@ -49,7 +45,7 @@ class m250909_130330_create_table_user extends Migration
 
     public function down()
     {
-        echo "m250909_130330_create_table_user cannot be reverted.\n";
+        echo "m250911_032722_create_table_item_variant cannot be reverted.\n";
 
         return false;
     }
