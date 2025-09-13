@@ -38,10 +38,10 @@ abstract class ItemAttributeValue extends \yii\db\ActiveRecord
         $behaviors = parent::behaviors();
         $behaviors['timestamp'] = [
             'class' => TimestampBehavior::class,
-            'value' => (new \DateTime())->format('Y-m-d H:i:s'),
-                        ];
-        
-    return $behaviors;
+            'value' => date("Y-m-d H:i:s"),
+        ];
+
+        return $behaviors;
     }
 
     /**

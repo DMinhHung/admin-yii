@@ -6,6 +6,7 @@ use Yii;
 use yii\rest\Controller;
 use app\helpers\ResponseBuilder;
 use app\modules\v1\admin\brand\models\Brand;
+use app\modules\v1\admin\brand\models\search\BrandSearch;
 
 class FormController extends Controller
 {
@@ -88,8 +89,8 @@ class FormController extends Controller
         return ResponseBuilder::json(false, null, "METHOD ALLOW GET! ");
     }
 
-//    public function actionIndex()
-//    {
-//        return ResponseBuilder::json(true, (new UserSearch())->search(Yii::$app->request->queryParams));
-//    }
+    public function actionIndex()
+    {
+        return ResponseBuilder::json(true, (new BrandSearch())->search(Yii::$app->request->queryParams));
+    }
 }

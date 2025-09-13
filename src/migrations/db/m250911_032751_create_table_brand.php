@@ -15,7 +15,7 @@ class m250911_032751_create_table_brand extends Migration
         }
         $this->createTable('{{%brand}}', [
             "id" => $this->primaryKey(),
-            "name" => $this->integer(),
+            "name" => $this->string(),
             "slug" => $this->string(),
             "description" => $this->text(),
             "logo" => $this->string(),
