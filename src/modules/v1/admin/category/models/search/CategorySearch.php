@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\v1\admin\brand\models\search;
+namespace app\modules\v1\admin\category\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\v1\admin\brand\models\Brand;
-class BrandSearch extends Brand
+use app\modules\v1\admin\category\models\Category;
+class CategorySearch extends Category
 {
     public function rules()
     {
         return [
-            [['name', 'slug', 'description', 'logo', 'status'], 'safe'],
+            [['name', 'slug', 'description', 'status'], 'safe'],
         ];
     }
 
@@ -31,7 +31,7 @@ class BrandSearch extends Brand
      */
     public function search($params)
     {
-        $query = Brand::find();
+        $query = Category::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

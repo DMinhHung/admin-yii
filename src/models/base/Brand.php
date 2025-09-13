@@ -54,7 +54,7 @@ abstract class Brand extends \yii\db\ActiveRecord
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
             [['name', 'slug', 'description', 'logo', 'status'], 'default', 'value' => null],
-            [['name', 'status'], 'integer'],
+            [['status'], 'integer'],
             [['description'], 'string'],
             [['slug', 'logo'], 'string', 'max' => 255]
         ]);
