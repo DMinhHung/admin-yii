@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use User;
-
 /**
  * This is the ActiveQuery class for [[User]].
  *
@@ -13,5 +11,9 @@ use User;
  */
 class UserQuery extends \yii\db\ActiveQuery
 {
+    public function notDelete()
+    {
+        return $this->andWhere(["<>", "user.status", User::STATUS_DELETED]);
+    }
 
 }

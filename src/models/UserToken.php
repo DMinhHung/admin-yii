@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use \app\models\base\UserToken as BaseUserToken;
 
 /**
@@ -17,4 +18,21 @@ class UserToken extends BaseUserToken
     public const TOKEN_LENGTH = 40;
     public const TYPE_ADMIN_AUTHENTICATION_TOKEN = 'admin_authentication_token';
     public $defaultConsumer = 'web';
+
+    public function formName()
+    {
+        return "";
+    }
+
+    public static function generateAuthKey($user)
+    {
+        $token = Yii::$app->security->generateRandomString();
+        $accessToken = new UserToken();
+        $accessToken->user_id = $user->id;
+        $accessToken->type = $user->type ?? $accessToken->defaultConsumer;
+        $accessToken->token = $token;
+        $accessToken->expire_at = $accessToken->tokenExpiration + time();
+        $user->token = $token;
+        $accessToken->save(false);
+    }
 }

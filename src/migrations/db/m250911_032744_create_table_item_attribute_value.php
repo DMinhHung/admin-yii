@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m250909_130330_create_table_user extends Migration
+class m250911_032744_create_table_item_attribute_value extends Migration
 {
     /**
      * {@inheritdoc}
@@ -13,23 +13,15 @@ class m250909_130330_create_table_user extends Migration
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
         }
-        $this->createTable('{{%user}}', [
+        $this->createTable('{{%item_attribute_value}}', [
             "id" => $this->primaryKey(),
-            "access_token" => $this->string(),
-            "token" => $this->string(),
-            "auth_key" => $this->string(),
-            "email" => $this->string(),
-            "username" => $this->string(),
-            "phone" => $this->string(),
-            "oauth_client" => $this->string(),
-            "oauth_client_user_id" => $this->string(),
+            "attribute_id" => $this->integer(),
+            "value" => $this->string(),
             "status" => $this->integer(),
-            "is_verify" => $this->boolean()->defaultValue(0),
-            "password_hash" => $this->string(),
-            "logged_at" => $this->dateTime(),
             "created_at" => $this->dateTime(),
             "updated_at" => $this->dateTime()
         ], $tableOptions);
+        $this->createIndex("idx-item_attribute_value-attribute_id", "item_attribute_value", "attribute_id");
     }
 
     /**
@@ -37,7 +29,7 @@ class m250909_130330_create_table_user extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%user}}');
+        $this->dropTable('{{%item_attribute_value}}');
     }
 
     /*
@@ -49,7 +41,7 @@ class m250909_130330_create_table_user extends Migration
 
     public function down()
     {
-        echo "m250909_130330_create_table_user cannot be reverted.\n";
+        echo "m250911_032744_create_table_item_attribute_value cannot be reverted.\n";
 
         return false;
     }

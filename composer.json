@@ -15,7 +15,9 @@
         "schmunk42/yii2-giiant": "@dev",
         "yiisoft/yii2-queue": "^2.3",
         "yiisoft/yii2-redis": "^2.0",
-        "bluerhinos/phpmqtt": "^1.0"
+        "bluerhinos/phpmqtt": "^1.0",
+        "yii2-starter-kit/yii2-file-kit": "^2.1",
+        "league/flysystem-aws-s3-v3": "^1.0"
     },
     "require-dev": {
         "yidas/yii2-bower-asset": "~2.0.13",
