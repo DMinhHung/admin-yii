@@ -13,7 +13,7 @@ use \app\models\BrandQuery;
  * This is the base-model class for table "brand".
  *
  * @property integer $id
- * @property integer $name
+ * @property string $name
  * @property string $slug
  * @property string $description
  * @property string $logo
