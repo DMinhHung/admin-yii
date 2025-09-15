@@ -9,22 +9,21 @@ use trntv\filekit\Storage as BaseStorage;
 
 class Storage extends BaseStorage
 {
-    public function save($file, $preserveFileName = false, $overwrite = false, $config = [], $pathPrefix = ''): bool|string
+    public function saveUpload($file, $objectKey, $preserveFileName = false, $overwrite = false, $config = [], $pathPrefix = ''): bool|string
     {
         $pathPrefix = FileHelper::normalizePath($pathPrefix);
         $fileObj = File::create($file);
-        $dirIndex = $this->getDirIndex($pathPrefix);
         if ($preserveFileName === false) {
             do {
                 $filename = implode('.', [
                     Yii::$app->security->generateRandomString(),
                     $fileObj->getExtension()
                 ]);
-                $path = implode(DIRECTORY_SEPARATOR, array_filter([$pathPrefix, $dirIndex, $filename]));
+                $path = implode(DIRECTORY_SEPARATOR, array_filter([$pathPrefix, $objectKey]));
             } while ($this->getFilesystem()->has($path));
         } else {
             $filename = $fileObj->getPathInfo('filename');
-            $path = implode(DIRECTORY_SEPARATOR, array_filter([$pathPrefix, $dirIndex, $filename]));
+            $path = implode(DIRECTORY_SEPARATOR, array_filter([$pathPrefix, $objectKey, $filename]));
         }
 
         $this->beforeSave($fileObj->getPath(), $this->getFilesystem());

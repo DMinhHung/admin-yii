@@ -1,16 +1,16 @@
 <?php
 
-namespace app\modules\v1\admin\brand\models\search;
+namespace app\modules\v1\admin\product\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\v1\admin\brand\models\Brand;
-class BrandSearch extends Brand
+use app\modules\v1\admin\product\models\Item;
+class ItemSearch extends Item
 {
     public function rules()
     {
         return [
-            [['name', 'slug', 'description', 'logo', 'status'], 'safe'],
+            [['category_id', 'brand_id', 'name', 'slug', 'description', 'thumbnail', 'gallery', 'sku', 'price', 'cost', 'discount', 'stock', 'weight', 'status'], 'safe'],
         ];
     }
 
@@ -31,7 +31,7 @@ class BrandSearch extends Brand
      */
     public function search($params)
     {
-        $query = Brand::find()->andWhere(["<>", "status", Brand::STATUS_DELETED]);
+        $query = Item::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -17,12 +17,12 @@ class FormController extends Controller
         if ($request->isPost) {
             $data = $request->post();
             if (!empty($data)) {
-                $brand = new CategoryForm();
-                $brand->load($data);
-                if ($brand->validate() && $brand->save()) {
-                    return ResponseBuilder::json(true, $brand, "CREATE SUCCESS! ");
+                $category = new CategoryForm();
+                $category->load($data);
+                if ($category->validate() && $category->save()) {
+                    return ResponseBuilder::json(true, $category, "CREATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $brand->getErrors(), "VALIDATE FAIL! ");
+                return ResponseBuilder::json(true, $category->getErrors(), "VALIDATE FAIL! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -37,15 +37,15 @@ class FormController extends Controller
             $data = $request->post();
             $id = $request->post('id');
             if (!empty($id)) {
-                $brand = CategoryForm::find()->where(['id' => $id])->one();
-                if (!empty($brand)) {
-                    $brand->load($data);
-                    if ($brand->validate() && $brand->save()) {
-                        return ResponseBuilder::json(true, $brand, "UPDATE SUCCESS! ");
+                $category = CategoryForm::find()->where(['id' => $id])->one();
+                if (!empty($category)) {
+                    $category->load($data);
+                    if ($category->validate() && $category->save()) {
+                        return ResponseBuilder::json(true, $category, "UPDATE SUCCESS! ");
                     }
-                    return ResponseBuilder::json(true, $brand->getErrors(), "VALIDATE FAIL! ");
+                    return ResponseBuilder::json(true, $category->getErrors(), "VALIDATE FAIL! ");
                 }
-                return ResponseBuilder::json(true, $brand->getErrors(), "BRAND EMPTY! ");
+                return ResponseBuilder::json(true, $category->getErrors(), "BRAND EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -59,13 +59,13 @@ class FormController extends Controller
             $data = $request->post();
             $id = $data['id'];
             if (!empty($id)) {
-                $brand = Category::find()->where(['id' => $id])->one();
-                if (!empty($brand)) {
-                    $brand->status = Category::STATUS_DELETED;
-                    $brand->save(false);
-                    return ResponseBuilder::json(true, $brand, "UPDATE SUCCESS! ");
+                $category = Category::find()->where(['id' => $id])->one();
+                if (!empty($category)) {
+                    $category->status = Category::STATUS_DELETED;
+                    $category->save(false);
+                    return ResponseBuilder::json(true, $category, "UPDATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $brand->getErrors(), "BRAND EMPTY! ");
+                return ResponseBuilder::json(true, $category->getErrors(), "BRAND EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -78,11 +78,11 @@ class FormController extends Controller
         if ($request->isGet) {
             $id = $request->get('id');
             if (!empty($id)) {
-                $brand = Category::find()->where(['id' => $id])->one();
-                if (!empty($brand)) {
-                    return ResponseBuilder::json(true, $brand, "GET SUCCESS! ");
+                $category = Category::find()->where(['id' => $id])->one();
+                if (!empty($category)) {
+                    return ResponseBuilder::json(true, $category, "GET SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $brand->getErrors(), "BRAND EMPTY! ");
+                return ResponseBuilder::json(true, $category->getErrors(), "BRAND EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
