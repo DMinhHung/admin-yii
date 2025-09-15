@@ -1,0 +1,22 @@
+version: '3'
+services:
+  app:
+    build:
+      dockerfile: Dockerfile
+      args:
+        docker_env: dev
+    ports:
+      - 8000:80
+    volumes:
+      #      - ./:/app
+      - ./src:/app/src
+      - ./config:/app/config
+      - ./web:/app/web
+      - ./docker/php/opcache.ini:/usr/local/etc/php/conf.d/opcache.ini
+    #      - ./vendor:/app/vendor
+    environment:
+      - DB_HOST=103.150.124.149
+      - DB_PORT=11388
+      - DB_NAME=admin
+      - DB_USERNAME=root
+      - DB_PASSWORD=123456
