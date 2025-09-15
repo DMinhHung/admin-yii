@@ -1,7 +1,12 @@
-FROM nginx/unit:1.27.0-php8.1
+FROM unit:php8.2
 
 RUN apt-get -y update
-RUN apt-get -y install git
+RUN apt-get install -y zlib1g-dev \
+    libpng-dev \
+    libzip-dev \
+    zip unzip
+
+RUN docker-php-ext-install pdo pdo_mysql gd zip
 
 #install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
