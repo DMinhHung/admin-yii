@@ -15,7 +15,7 @@ class m250911_032734_create_table_item_attribute extends Migration
         }
         $this->createTable('{{%item_attribute}}', [
             "id" => $this->primaryKey(),
-            "name" => $this->integer(),
+            "name" => $this->string(),
             "status" => $this->integer(),
             "created_at" => $this->dateTime(),
             "updated_at" => $this->dateTime()

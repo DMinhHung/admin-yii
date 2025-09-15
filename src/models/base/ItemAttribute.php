@@ -13,7 +13,7 @@ use \app\models\ItemAttributeQuery;
  * This is the base-model class for table "item_attribute".
  *
  * @property integer $id
- * @property integer $name
+ * @property string $name
  * @property integer $status
  * @property string $created_at
  * @property string $updated_at
@@ -51,7 +51,8 @@ abstract class ItemAttribute extends \yii\db\ActiveRecord
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
             [['name', 'status'], 'default', 'value' => null],
-            [['name', 'status'], 'integer']
+            ['name', 'string'],
+            ['status', 'integer'],
         ]);
     }
 

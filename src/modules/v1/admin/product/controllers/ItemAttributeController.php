@@ -2,14 +2,15 @@
 
 namespace app\modules\v1\admin\product\controllers;
 
+use app\modules\v1\admin\product\models\ItemAttribute;
 use Yii;
 use app\helpers\ResponseBuilder;
-use app\modules\v1\admin\product\models\Item;
-use app\modules\v1\admin\product\models\form\ItemForm;
-use app\modules\v1\admin\product\models\search\ItemSearch;
+use app\models\ItemAttributeValue;
+use app\modules\v1\admin\product\models\form\ItemAttributeForm;
+use app\modules\v1\admin\product\models\search\ItemAttributeSearch;
 
 
-class FormController extends Controller
+class ItemAttributeController extends Controller
 {
 
     public function actionCreate()
@@ -18,12 +19,17 @@ class FormController extends Controller
         if ($request->isPost) {
             $data = $request->post();
             if (!empty($data)) {
-                $item = new ItemForm();
-                $item->load($data);
-                if ($item->validate() && $item->save()) {
-                    return ResponseBuilder::json(true, $item, "CREATE SUCCESS! ");
+                $attribute = new ItemAttributeForm();
+                $attribute->load($data);
+                if ($attribute->validate() && $attribute->save()) {
+                    $value = new ItemAttributeValue();
+                    $value->attribute_id = $attribute->id;
+                    $value->status = ItemAttributeValue::STATUS_ACTIVE;
+                    $value->load($data);
+                    $value->save(false);
+                    return ResponseBuilder::json(true, $attribute, "CREATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(false, $item->getErrors(), "VALIDATE FAIL! ");
+                return ResponseBuilder::json(false, $attribute->getErrors(), "VALIDATE FAIL! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -38,11 +44,16 @@ class FormController extends Controller
             $data = $request->post();
             $id = $request->post('id');
             if (!empty($id)) {
-                $item = ItemForm::find()->where(['id' => $id])->one();
+                $item = ItemAttributeForm::find()->where(['id' => $id])->one();
                 if (!empty($item)) {
                     $item->load($data);
                     if ($item->validate() && $item->save()) {
-                        return ResponseBuilder::json(true, $item, "UPDATE SUCCESS! ");
+                        $value = ItemAttributeValue::find()->where(['attribute_id' => $item->id])->one();
+                        if (!empty($value)) {
+                            $value->load($data);
+                            $value->save(false);
+                            return ResponseBuilder::json(true, $item, "UPDATE SUCCESS! ");
+                        }
                     }
                     return ResponseBuilder::json(true, $item->getErrors(), "VALIDATE FAIL! ");
                 }
@@ -60,9 +71,9 @@ class FormController extends Controller
             $data = $request->post();
             $id = $data['id'];
             if (!empty($id)) {
-                $item = Item::find()->where(['id' => $id])->one();
+                $item = ItemAttribute::find()->where(['id' => $id])->one();
                 if (!empty($item)) {
-                    $item->status = Item::STATUS_DELETED;
+                    $item->status = ItemAttribute::STATUS_DELETED;
                     $item->save(false);
                     return ResponseBuilder::json(true, $item, "UPDATE SUCCESS! ");
                 }
@@ -79,7 +90,7 @@ class FormController extends Controller
         if ($request->isGet) {
             $id = $request->get('id');
             if (!empty($id)) {
-                $item = Item::find()->where(['id' => $id])->one();
+                $item = ItemAttribute::find()->where(['id' => $id])->one();
                 if (!empty($item)) {
                     return ResponseBuilder::json(true, $item, "GET SUCCESS! ");
                 }
@@ -92,6 +103,6 @@ class FormController extends Controller
 
     public function actionIndex()
     {
-        return ResponseBuilder::json(true, (new ItemSearch())->search(Yii::$app->request->queryParams));
+        return ResponseBuilder::json(true, (new ItemAttributeSearch())->search(Yii::$app->request->queryParams));
     }
 }
