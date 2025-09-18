@@ -15,6 +15,6 @@ class ItemAttribute extends BaseItemAttribute
 
     public function getAttributeValue()
     {
-        return $this->hasOne(ItemAttributeValue::class, ['attribute_id' => 'id']);
+        return $this->hasMany(ItemAttributeValue::class, ['attribute_id' => 'id']);
     }
 }

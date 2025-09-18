@@ -7,22 +7,19 @@ namespace app\models\base;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
-use \app\models\ItemVariantQuery;
+use \app\models\ItemAttributeValueQuery;
 
 /**
- * This is the base-model class for table "item_variant".
+ * This is the base-model class for table "item_variant_attribute".
  *
  * @property integer $id
- * @property integer $item_id
- * @property string $name
- * @property string $sku
- * @property double $price
- * @property integer $stock
- * @property integer $status
+ * @property integer $item_variant_id
+ * @property integer $item_attribute_id
+ * @property integer $item_attribute_value_id
  * @property string $created_at
  * @property string $updated_at
  */
-abstract class ItemVariant extends \yii\db\ActiveRecord
+abstract class ItemVariantAttribute extends \yii\db\ActiveRecord
 {
 
     /**
@@ -30,7 +27,7 @@ abstract class ItemVariant extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'item_variant';
+        return 'item_variant_attribute';
     }
 
     /**
@@ -54,11 +51,7 @@ abstract class ItemVariant extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['item_id', 'sku', 'price', 'stock', 'name', 'status'], 'default', 'value' => null],
-            [['item_id', 'stock', 'status'], 'integer'],
-            [['price'], 'number'],
-            [['attributes'], 'safe'],
-            [['name','sku'], 'string', 'max' => 255]
+            [['item_variant_id', 'item_attribute_id', 'item_attribute_value_id'], 'integer'],
         ]);
     }
 
@@ -69,13 +62,9 @@ abstract class ItemVariant extends \yii\db\ActiveRecord
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
             'id' => 'ID',
-            'item_id' => 'Item ID',
-            'name' => 'Name',
-            'sku' => 'Sku',
-            'price' => 'Price',
-            'stock' => 'Stock',
-            'attributes' => 'Attributes',
-            'status' => 'Status',
+            'item_variant_id' => 'Item Variant ID',
+            'item_attribute_id' => 'Item Attribute ID',
+            'item_attribute_value_id' => 'Item Attribute Value ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ]);
@@ -83,10 +72,10 @@ abstract class ItemVariant extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return ItemVariantQuery the active query used by this AR class.
+     * @return ItemAttributeValueQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new ItemVariantQuery(static::class);
+        return new ItemAttributeValueQuery(static::class);
     }
 }
