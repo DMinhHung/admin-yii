@@ -3,9 +3,9 @@
 namespace app\modules\v1\admin\product\models\form;
 
 use Yii;
-use app\modules\v1\admin\product\models\Item;
+use app\modules\v1\admin\product\models\ItemVariant;
 
-class ItemVariantForm extends Item
+class ItemVariantForm extends ItemVariant
 {
     public function rules()
     {

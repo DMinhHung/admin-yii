@@ -9,6 +9,7 @@ class ItemAttributeValue extends BaseItemAttributeValue
     public function fields()
     {
         return [
+            'id',
             'value',
             'created_at',
             'updated_at'

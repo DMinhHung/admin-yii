@@ -2,11 +2,10 @@
 
 use yii\db\Migration;
 
-class m250911_032722_create_table_item_variant extends Migration
+class m250917_123550_create_table_item_variant_attribute extends Migration
 {
     /**
      * {@inheritdoc}
-     * @throws \yii\base\Exception
      */
     public function safeUp()
     {
@@ -14,18 +13,15 @@ class m250911_032722_create_table_item_variant extends Migration
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
         }
-        $this->createTable('{{%item_variant}}', [
+        $this->createTable('{{%item_variant_attribute}}', [
             "id" => $this->primaryKey(),
-            "item_id" => $this->integer(),
-            "name" => $this->string(),
-            "sku" => $this->string(),
-            "price" => $this->double(),
-            "stock" => $this->integer(),
-            "status" => $this->integer(),
+            "item_variant_id" => $this->integer(),
+            "item_attribute_id" => $this->integer(),
+            "item_attribute_value_id" => $this->integer(),
             "created_at" => $this->dateTime(),
             "updated_at" => $this->dateTime()
         ], $tableOptions);
-        $this->createIndex("idx-item_variant-item_id", "item_variant", "item_id");
+        $this->createIndex("idx-item_variant_attribute-item_variant_id", "item_variant_attribute", "item_variant_id");
     }
 
     /**
@@ -33,7 +29,7 @@ class m250911_032722_create_table_item_variant extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%item_variant}}');
+        $this->dropTable('{{%item_variant_attribute}}');
     }
 
     /*
@@ -45,7 +41,7 @@ class m250911_032722_create_table_item_variant extends Migration
 
     public function down()
     {
-        echo "m250911_032722_create_table_item_variant cannot be reverted.\n";
+        echo "m250917_123550_create_table_item_variant_attribute cannot be reverted.\n";
 
         return false;
     }
