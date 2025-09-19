@@ -3,12 +3,12 @@
 namespace app\modules\v1\admin\product\controllers;
 
 use Yii;
+use yii\db\Exception;
+use yii\web\HttpException;
 use app\helpers\ResponseBuilder;
 use app\modules\v1\admin\product\models\ItemVariant;
 use app\modules\v1\admin\product\models\form\ItemVariantForm;
 use app\modules\v1\admin\product\models\ItemVariantAttribute;
-use yii\db\Exception;
-use yii\web\HttpException;
 
 
 class ItemVariantController extends Controller
@@ -118,9 +118,4 @@ class ItemVariantController extends Controller
         }
         return ResponseBuilder::json(false, null, "METHOD ALLOW GET! ");
     }
-
-//    public function actionIndex()
-//    {
-//        return ResponseBuilder::json(true, (new ItemVariantSearch())->search(Yii::$app->request->queryParams));
-//    }
 }

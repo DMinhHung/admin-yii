@@ -21,11 +21,13 @@ use \app\models\ItemQuery;
  * @property string $thumbnail
  * @property array $gallery
  * @property string $sku
+ * @property string $barcode
  * @property double $price
  * @property double $cost
  * @property string $discount
  * @property integer $stock
  * @property string $weight
+ * @property string $unit
  * @property integer $status
  * @property string $created_at
  * @property string $updated_at
@@ -62,11 +64,11 @@ abstract class Item extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['category_id', 'brand_id', 'name', 'slug', 'description', 'thumbnail', 'gallery', 'sku', 'price', 'cost', 'discount', 'stock', 'weight', 'status'], 'default', 'value' => null],
+            [['category_id', 'brand_id', 'name', 'slug', 'description', 'thumbnail', 'gallery', 'sku', 'barcode', 'price', 'cost', 'discount', 'stock', 'weight', 'unit', 'status'], 'default', 'value' => null],
             [['category_id', 'brand_id', 'stock', 'status'], 'integer'],
             [['gallery'], 'safe'],
             [['price', 'cost'], 'number'],
-            [['name', 'slug', 'description', 'thumbnail', 'sku', 'discount', 'weight'], 'string', 'max' => 255]
+            [['name', 'slug', 'description', 'thumbnail', 'sku', 'barcode','discount', 'weight', 'unit'], 'string', 'max' => 255]
         ]);
     }
 
@@ -85,6 +87,7 @@ abstract class Item extends \yii\db\ActiveRecord
             'thumbnail' => 'Thumbnail',
             'gallery' => 'Gallery',
             'sku' => 'Sku',
+            'barcode' => 'Barcode',
             'price' => 'Price',
             'cost' => 'Cost',
             'discount' => 'Discount',

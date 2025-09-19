@@ -9,14 +9,19 @@ class ItemVariant extends BaseItemVariant
     public function fields()
     {
         return [
+            'id',
             'name',
+            'thumbnail',
             'sku',
             'price',
             'stock',
             'item',
+            'barcode',
             'attributes' => function () {
                 return array_map(function ($attr) {
                     return [
+                        'attribute_id' => $attr->itemAttribute->id ?? null,
+                        'attribute_value_id' => $attr->valueRelation->id ?? null,
                         'name' => $attr->itemAttribute->name ?? null,
                         'value' => $attr->valueRelation->value ?? null,
                     ];
