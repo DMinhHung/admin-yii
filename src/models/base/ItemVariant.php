@@ -15,7 +15,9 @@ use \app\models\ItemVariantQuery;
  * @property integer $id
  * @property integer $item_id
  * @property string $name
+ * @property string $thumbnail
  * @property string $sku
+ * @property string $barcode
  * @property double $price
  * @property integer $stock
  * @property integer $status
@@ -54,11 +56,11 @@ abstract class ItemVariant extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['item_id', 'sku', 'price', 'stock', 'name', 'status'], 'default', 'value' => null],
+            [['item_id', 'sku', 'barcode', 'price', 'stock', 'name', 'thumbnail', 'status'], 'default', 'value' => null],
             [['item_id', 'stock', 'status'], 'integer'],
             [['price'], 'number'],
             [['attributes'], 'safe'],
-            [['name','sku'], 'string', 'max' => 255]
+            [['name', 'thumbnail', 'sku', 'barcode'], 'string', 'max' => 255]
         ]);
     }
 
@@ -71,7 +73,9 @@ abstract class ItemVariant extends \yii\db\ActiveRecord
             'id' => 'ID',
             'item_id' => 'Item ID',
             'name' => 'Name',
+            'thumbnail' => 'Thumbnail',
             'sku' => 'Sku',
+            'barcode' => 'Barcode',
             'price' => 'Price',
             'stock' => 'Stock',
             'attributes' => 'Attributes',
