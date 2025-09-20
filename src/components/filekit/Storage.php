@@ -11,7 +11,7 @@ class Storage extends BaseStorage
 {
     public function saveUpload($file, $objectKey, $preserveFileName = false, $overwrite = false, $config = [], $pathPrefix = ''): bool|string
     {
-        $pathPrefix = FileHelper::normalizePath($pathPrefix);
+        $pathPrefix = FileHelper::normalizePath($pathPrefix ?? '');
         $fileObj = File::create($file);
         if ($preserveFileName === false) {
             do {
