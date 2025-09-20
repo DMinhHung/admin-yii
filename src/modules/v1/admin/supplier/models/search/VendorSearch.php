@@ -1,17 +1,17 @@
 <?php
 
-namespace app\modules\v1\admin\customer\models\search;
+namespace app\modules\v1\admin\supplier\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\v1\admin\customer\models\Customer;
+use app\modules\v1\admin\supplier\models\Vendor;
 
-class CustomerSearch extends Customer
+class VendorSearch extends Vendor
 {
     public function rules()
     {
         return [
-            [['name', 'code', 'phone', 'email', 'city', 'group_customer', 'company_name', 'current_debt'], 'safe'],
+            [['name', 'code', 'phone', 'email', 'city', 'company_name', 'current_debt'], 'safe'],
         ];
     }
 
@@ -32,7 +32,7 @@ class CustomerSearch extends Customer
      */
     public function search($params)
     {
-        $query = Customer::find();
+        $query = Vendor::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
