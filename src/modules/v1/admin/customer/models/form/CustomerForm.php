@@ -10,7 +10,7 @@ class CustomerForm extends Customer
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [["name", "phone", "email", "city", "group_customer", "company_name"], "required"],
+            [["name", "phone", "email"], "required"],
             [["name"], "unique", 'filter' => ["!=", "status", self::STATUS_DELETED]],
             ["status", "default", "value" => self::STATUS_ACTIVE],
         ]);

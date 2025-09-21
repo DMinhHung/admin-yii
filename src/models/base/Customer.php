@@ -18,6 +18,7 @@ use \app\models\CustomerQuery;
  * @property string $phone
  * @property integer $gender
  * @property string $email
+ * @property string $fb_url
  * @property string $thumbnail
  * @property string $city
  * @property string $district
@@ -54,10 +55,10 @@ abstract class Customer extends \yii\db\ActiveRecord
         $behaviors = parent::behaviors();
         $behaviors['timestamp'] = [
             'class' => TimestampBehavior::class,
-            'value' => (new \DateTime())->format('Y-m-d H:i:s'),
-                        ];
-        
-    return $behaviors;
+            'value' => date("Y-m-d H:i:s"),
+        ];
+
+        return $behaviors;
     }
 
     /**
@@ -67,7 +68,7 @@ abstract class Customer extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['name', 'code', 'phone', 'gender', 'email', 'thumbnail', 'city', 'district', 'ward', 'address', 'group_customer', 'type', 'tax_code', 'company_name', 'national', 'passport_number', 'bank_name', 'bank_account_number', 'current_debt'], 'default', 'value' => null],
+            [['name', 'code', 'phone', 'gender', 'email', 'fb_url', 'thumbnail', 'city', 'district', 'ward', 'address', 'group_customer', 'type', 'tax_code', 'company_name', 'national', 'passport_number', 'bank_name', 'bank_account_number', 'current_debt'], 'default', 'value' => null],
             [['gender', 'group_customer', 'type'], 'integer'],
             [['current_debt'], 'number'],
             [['name', 'code', 'phone', 'email', 'thumbnail', 'city', 'district', 'ward', 'address', 'tax_code', 'company_name', 'national', 'passport_number', 'bank_name', 'bank_account_number'], 'string', 'max' => 255]

@@ -17,6 +17,7 @@ class m250920_132613_create_table_group_customer extends Migration
             "id" => $this->primaryKey(),
             "name" => $this->string(),
             "value" => $this->text(),
+            "status" => $this->integer(),
             "created_at" => $this->dateTime(),
             "updated_at" => $this->dateTime()
         ], $tableOptions);
