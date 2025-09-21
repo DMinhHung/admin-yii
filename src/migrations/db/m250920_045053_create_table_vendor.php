@@ -28,6 +28,7 @@ class m250920_045053_create_table_vendor extends Migration
             "tax_code" => $this->string(),
             "company_name" => $this->string(),
             "current_debt" => $this->double(),
+            "status" => $this->integer(),
             "created_at" => $this->dateTime(),
             "updated_at" => $this->dateTime()
         ], $tableOptions);

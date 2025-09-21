@@ -15,6 +15,7 @@ use \app\models\GroupCustomerQuery;
  * @property integer $id
  * @property string $name
  * @property string $value
+ * @property integer $status
  * @property string $created_at
  * @property string $updated_at
  */
@@ -37,10 +38,10 @@ abstract class GroupCustomer extends \yii\db\ActiveRecord
         $behaviors = parent::behaviors();
         $behaviors['timestamp'] = [
             'class' => TimestampBehavior::class,
-            'value' => (new \DateTime())->format('Y-m-d H:i:s'),
-                        ];
-        
-    return $behaviors;
+            'value' => date("Y-m-d H:i:s"),
+        ];
+
+        return $behaviors;
     }
 
     /**
@@ -52,7 +53,8 @@ abstract class GroupCustomer extends \yii\db\ActiveRecord
         return ArrayHelper::merge($parentRules, [
             [['name', 'value'], 'default', 'value' => null],
             [['value'], 'string'],
-            [['name'], 'string', 'max' => 255]
+            [['name'], 'string', 'max' => 255],
+            ['status', 'integer'],
         ]);
     }
 
@@ -65,6 +67,7 @@ abstract class GroupCustomer extends \yii\db\ActiveRecord
             'id' => 'ID',
             'name' => 'Name',
             'value' => 'Value',
+            'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ]);

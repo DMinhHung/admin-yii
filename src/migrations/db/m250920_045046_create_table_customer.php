@@ -20,6 +20,7 @@ class m250920_045046_create_table_customer extends Migration
             "phone" => $this->string(),
             "gender" => $this->integer(),
             "email" => $this->string(),
+            "fb_url" => $this->string(),
             "thumbnail" => $this->string(),
             "city" => $this->string(),
             "district" => $this->string(),
@@ -34,6 +35,7 @@ class m250920_045046_create_table_customer extends Migration
             "bank_name" => $this->string(),
             "bank_account_number" => $this->string(),
             "current_debt" => $this->double(),
+            "status" => $this->integer(),
             "created_at" => $this->dateTime(),
             "updated_at" => $this->dateTime()
         ], $tableOptions);
