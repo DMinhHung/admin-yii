@@ -12,7 +12,7 @@ class StockCheckForm extends StockCheck
         return array_merge(parent::rules(), [
             [["code", "user_id"], "required"],
             [["code"], "unique", 'filter' => ["!=", "status", self::STATUS_DELETED]],
-            ["status", "default", "value" => self::STATUS_PENDING],
+            ["status", "default", "value" => self::STATUS_ACTIVE],
         ]);
     }
 }

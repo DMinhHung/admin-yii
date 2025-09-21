@@ -19,6 +19,7 @@ class m250921_082412_create_table_stock_invoice extends Migration
             "type" => $this->integer(),
             "warehouse_id" => $this->integer(),
             "user_id" => $this->integer(),
+            "vendor_id" => $this->integer(),
             "note" => $this->text(),
             "status" => $this->integer(),
             "created_at" => $this->dateTime(),
