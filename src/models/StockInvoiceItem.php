@@ -9,5 +9,8 @@ use \app\models\base\StockInvoiceItem as BaseStockInvoiceItem;
  */
 class StockInvoiceItem extends BaseStockInvoiceItem
 {
-
+    public function formName()
+    {
+        return '';
+    }
 }

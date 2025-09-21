@@ -9,5 +9,8 @@ use \app\models\base\StockCheckItem as BaseStockCheckItem;
  */
 class StockCheckItem extends BaseStockCheckItem
 {
-
+    public function formName()
+    {
+        return '';
+    }
 }
