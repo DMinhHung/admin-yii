@@ -17,6 +17,7 @@ use \app\models\StockInvoiceQuery;
  * @property integer $type
  * @property integer $warehouse_id
  * @property integer $user_id
+ * @property integer $vendor_id
  * @property string $note
  * @property integer $status
  * @property string $created_at
@@ -54,8 +55,8 @@ abstract class StockInvoice extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['code', 'type', 'warehouse_id', 'user_id', 'note', 'status'], 'default', 'value' => null],
-            [['type', 'warehouse_id', 'user_id', 'status'], 'integer'],
+            [['code', 'type', 'warehouse_id', 'user_id', 'vendor_id','note', 'status'], 'default', 'value' => null],
+            [['type', 'warehouse_id', 'user_id', 'vendor_id', 'status'], 'integer'],
             [['note'], 'string'],
             [['code'], 'string', 'max' => 255]
         ]);
@@ -72,6 +73,7 @@ abstract class StockInvoice extends \yii\db\ActiveRecord
             'type' => 'Type',
             'warehouse_id' => 'Warehouse ID',
             'user_id' => 'User ID',
+            'vendor_id' => 'Vendor ID',
             'note' => 'Note',
             'status' => 'Status',
             'created_at' => 'Created At',
