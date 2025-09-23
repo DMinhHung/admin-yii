@@ -24,7 +24,7 @@ class FormController extends Controller
                 }
                 return ResponseBuilder::json(true, $brand->getErrors(), "VALIDATE FAIL! ");
             }
-            return ResponseBuilder::json(false, null, "MISING PARAMS! ");
+            return ResponseBuilder::json(false, null, "MISSING PARAMS! ");
         }
         return ResponseBuilder::json(false, null, "METHOD ALLOW POST! ");
 
