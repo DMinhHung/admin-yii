@@ -1,23 +1,30 @@
 <?php
 
-namespace app\modules\v1\admin\invoice\controllers;
+namespace app\modules\v1\admin\employee\controllers;
 
 use Yii;
+use yii\db\Exception;
+use yii\rest\Controller;
+use yii\web\HttpException;
 use app\helpers\ResponseBuilder;
-use app\modules\v1\admin\invoice\models\Warehouse;
-use app\modules\v1\admin\invoice\models\form\WarehouseForm;
-use app\modules\v1\admin\invoice\models\search\WarehouseSearch;
+use app\modules\v1\admin\employee\models\Employee;
+use app\modules\v1\admin\employee\models\form\EmployeeForm;
+use app\modules\v1\admin\employee\models\search\EmployeeSearch;
 
-class WarehouseController extends Controller
+
+class FormController extends Controller
 {
-
+    /**
+     * @throws Exception
+     * @throws HttpException
+     */
     public function actionCreate()
     {
         $request = Yii::$app->request;
         if ($request->isPost) {
             $data = $request->post();
             if (!empty($data)) {
-                $item = new WarehouseForm();
+                $item = new EmployeeForm();
                 $item->load($data);
                 if ($item->validate() && $item->save()) {
                     return ResponseBuilder::json(true, $item, "CREATE SUCCESS! ");
@@ -37,7 +44,7 @@ class WarehouseController extends Controller
             $data = $request->post();
             $id = $request->post('id');
             if (!empty($id)) {
-                $item = WarehouseForm::find()->where(['id' => $id])->one();
+                $item = EmployeeForm::find()->where(['id' => $id])->one();
                 if (!empty($item)) {
                     $item->load($data);
                     if ($item->validate() && $item->save()) {
@@ -45,7 +52,7 @@ class WarehouseController extends Controller
                     }
                     return ResponseBuilder::json(false, $item->getErrors(), "VALIDATE FAIL! ");
                 }
-                return ResponseBuilder::json(false, $item->getErrors(), "DATA EMPTY! ");
+                return ResponseBuilder::json(false, null, "CUSTOMER EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -59,13 +66,13 @@ class WarehouseController extends Controller
             $data = $request->post();
             $id = $data['id'];
             if (!empty($id)) {
-                $item = Warehouse::find()->where(['id' => $id])->one();
+                $item = Employee::find()->where(['id' => $id])->one();
                 if (!empty($item)) {
-                    $item->status = Warehouse::STATUS_DELETED;
+                    $item->status = Employee::STATUS_DELETED;
                     $item->save(false);
                     return ResponseBuilder::json(true, $item, "UPDATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(false, $item->getErrors(), "DATA EMPTY! ");
+                return ResponseBuilder::json(false, null, "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -78,11 +85,11 @@ class WarehouseController extends Controller
         if ($request->isGet) {
             $id = $request->get('id');
             if (!empty($id)) {
-                $item = Warehouse::find()->where(['id' => $id])->one();
+                $item = Employee::find()->where(['id' => $id])->one();
                 if (!empty($item)) {
                     return ResponseBuilder::json(true, $item, "GET SUCCESS! ");
                 }
-                return ResponseBuilder::json(false, $item->getErrors(), "DATA EMPTY! ");
+                return ResponseBuilder::json(false, null, "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -91,6 +98,6 @@ class WarehouseController extends Controller
 
     public function actionIndex()
     {
-        return ResponseBuilder::json(true, (new WarehouseSearch())->search(Yii::$app->request->queryParams));
+        return ResponseBuilder::json(true, (new EmployeeSearch())->search(Yii::$app->request->queryParams));
     }
 }

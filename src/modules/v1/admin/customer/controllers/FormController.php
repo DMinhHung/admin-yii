@@ -22,7 +22,7 @@ class FormController extends Controller
                 if ($brand->validate() && $brand->save()) {
                     return ResponseBuilder::json(true, $brand, "CREATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $brand->getErrors(), "VALIDATE FAIL! ");
+                return ResponseBuilder::json(false, $brand->getErrors(), "VALIDATE FAIL! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -43,9 +43,9 @@ class FormController extends Controller
                     if ($brand->validate() && $brand->save()) {
                         return ResponseBuilder::json(true, $brand, "UPDATE SUCCESS! ");
                     }
-                    return ResponseBuilder::json(true, $brand->getErrors(), "VALIDATE FAIL! ");
+                    return ResponseBuilder::json(false, $brand->getErrors(), "VALIDATE FAIL! ");
                 }
-                return ResponseBuilder::json(true, $brand->getErrors(), "CUSTOMER EMPTY! ");
+                return ResponseBuilder::json(false, $brand->getErrors(), "CUSTOMER EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -65,7 +65,7 @@ class FormController extends Controller
                     $brand->save(false);
                     return ResponseBuilder::json(true, $brand, "UPDATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $brand->getErrors(), "BRAND EMPTY! ");
+                return ResponseBuilder::json(false, $brand->getErrors(), "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -82,7 +82,7 @@ class FormController extends Controller
                 if (!empty($brand)) {
                     return ResponseBuilder::json(true, $brand, "GET SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $brand->getErrors(), "BRAND EMPTY! ");
+                return ResponseBuilder::json(false, $brand->getErrors(), "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }

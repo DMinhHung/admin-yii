@@ -20,3 +20,9 @@ services:
       - DB_NAME=admin
       - DB_USERNAME=root
       - DB_PASSWORD=123456
+      - STORAGE_URL=https://pub-c4895ca391a043e2a4eac461aa4d1afd.r2.dev
+      - S3_END_POINT=https://c0867a3dde2932ea183d953e753ca822.r2.cloudflarestorage.com
+      - S3_KEY=2643d98f64462b8fcc35aa92a5e02d56
+      - S3_SECRET=8cb12bcb7366bb090f79b8bebbd3263e6b369222afbe26676c3856bc7e358120
+      - S3_REGION=auto
+      - S3_BUCKET=e-commerce

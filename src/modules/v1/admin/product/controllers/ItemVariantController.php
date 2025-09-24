@@ -73,9 +73,9 @@ class ItemVariantController extends Controller
                         }
                         return ResponseBuilder::json(true, $item, "UPDATE SUCCESS! ");
                     }
-                    return ResponseBuilder::json(true, $item->getErrors(), "VALIDATE FAIL! ");
+                    return ResponseBuilder::json(false, $item->getErrors(), "VALIDATE FAIL! ");
                 }
-                return ResponseBuilder::json(true, $item->getErrors(), "ITEM EMPTY! ");
+                return ResponseBuilder::json(false, null, "ITEM EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -95,7 +95,7 @@ class ItemVariantController extends Controller
                     $item->save(false);
                     return ResponseBuilder::json(true, $item, "UPDATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $item->getErrors(), "ITEM EMPTY! ");
+                return ResponseBuilder::json(false, null, "ITEM EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -112,7 +112,7 @@ class ItemVariantController extends Controller
                 if (!empty($item)) {
                     return ResponseBuilder::json(true, $item, "GET SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, null, "ITEM EMPTY! ");
+                return ResponseBuilder::json(false, null, "ITEM EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
