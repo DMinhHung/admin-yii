@@ -3,6 +3,8 @@
 namespace app\modules\v1\admin\product\controllers;
 
 use Yii;
+use yii\db\Exception;
+use yii\web\HttpException;
 use app\helpers\ResponseBuilder;
 use app\modules\v1\admin\product\models\Item;
 use app\modules\v1\admin\product\models\form\ItemForm;
@@ -12,6 +14,10 @@ use app\modules\v1\admin\product\models\search\ItemSearch;
 class FormController extends Controller
 {
 
+    /**
+     * @throws Exception
+     * @throws HttpException
+     */
     public function actionCreate()
     {
         $request = Yii::$app->request;
@@ -44,9 +50,9 @@ class FormController extends Controller
                     if ($item->validate() && $item->save()) {
                         return ResponseBuilder::json(true, $item, "UPDATE SUCCESS! ");
                     }
-                    return ResponseBuilder::json(true, $item->getErrors(), "VALIDATE FAIL! ");
+                    return ResponseBuilder::json(false, $item->getErrors(), "VALIDATE FAIL! ");
                 }
-                return ResponseBuilder::json(true, $item->getErrors(), "BRAND EMPTY! ");
+                return ResponseBuilder::json(false, null, "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -66,7 +72,7 @@ class FormController extends Controller
                     $item->save(false);
                     return ResponseBuilder::json(true, $item, "UPDATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $item->getErrors(), "BRAND EMPTY! ");
+                return ResponseBuilder::json(false, null, "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -83,7 +89,7 @@ class FormController extends Controller
                 if (!empty($item)) {
                     return ResponseBuilder::json(true, $item, "GET SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $item->getErrors(), "BRAND EMPTY! ");
+                return ResponseBuilder::json(false, null, "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }

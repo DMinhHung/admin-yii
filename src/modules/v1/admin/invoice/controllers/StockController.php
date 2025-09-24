@@ -172,7 +172,7 @@ class StockController extends Controller
                 if (!empty($invoice)) {
                     return ResponseBuilder::json(true, $invoice, "GET SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $invoice->getErrors(), "BRAND EMPTY! ");
+                return ResponseBuilder::json(false, $invoice->getErrors(), "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }

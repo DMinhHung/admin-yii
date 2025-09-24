@@ -43,7 +43,7 @@ class CheckController extends Controller
                         return ResponseBuilder::json(true, $invoice, "CREATE SUCCESS!");
                     }
                     $transaction->rollBack();
-                    return ResponseBuilder::json(true, $invoice->getErrors(), "VALIDATE FAIL!");
+                    return ResponseBuilder::json(false, $invoice->getErrors(), "VALIDATE FAIL!");
                 } catch (\Throwable $e) {
                     $transaction->rollBack();
                     return ResponseBuilder::json(false, null, $e->getMessage());
@@ -99,7 +99,7 @@ class CheckController extends Controller
                             return ResponseBuilder::json(true, $invoice, "UPDATE SUCCESS!");
                         }
                         $transaction->rollBack();
-                        return ResponseBuilder::json(true, $invoice->getErrors(), "VALIDATE FAIL!");
+                        return ResponseBuilder::json(false, $invoice->getErrors(), "VALIDATE FAIL!");
                     } catch (\Throwable $e) {
                         $transaction->rollBack();
                         return ResponseBuilder::json(false, null, $e->getMessage());
@@ -126,7 +126,7 @@ class CheckController extends Controller
                         foreach ($items as $invoiceItem) {
                             $item = Item::find()->where(['id' => $invoiceItem->product_id])->one();
                             if (!empty($item)) {
-                                $item->stock = $oldItem->actual_quantity;
+                                $item->stock = $invoiceItem->actual_quantity;
                                 $item->save(false);
                             }
                         }
@@ -159,7 +159,7 @@ class CheckController extends Controller
                 if (!empty($invoice)) {
                     return ResponseBuilder::json(true, $invoice, "GET SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $invoice->getErrors(), "BRAND EMPTY! ");
+                return ResponseBuilder::json(false, $invoice->getErrors(), "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
