@@ -5,7 +5,9 @@ namespace app\modules\v1\admin\user\controllers;
 use Yii;
 use yii\base\Exception;
 use yii\rest\Controller;
+use app\models\UserToken;
 use yii\web\HttpException;
+use Random\RandomException;
 use app\helpers\ResponseBuilder;
 use app\models\User as UserAlias;
 use yii\web\NotFoundHttpException;
@@ -44,6 +46,101 @@ class FormController extends Controller
         $user->logged_at = date("Y-m-d H:i:s");
         $user->save(false);
         return ResponseBuilder::json(true, ["user" => $user], "Login Successfully");
+    }
+
+    /**
+     * @throws HttpException
+     * @throws RandomException
+     */
+    public function actionForgetPassword()
+    {
+        $request = Yii::$app->request;
+        if ($request->isPost) {
+            $email = $request->post('email');
+            if (!empty($email)) {
+                $user = User::find()->where(['email' => $email, 'status' => User::STATUS_ACTIVE])->one();
+                if (!empty($user)) {
+                    $otp = random_int(100000, 999999);
+                    $userToken = new UserToken();
+                    $userToken->user_id = $user->id;
+                    $userToken->type = "otp";
+                    $userToken->token = $otp;
+                    $userToken->expire_at = date('Y-m-d H:i:s', strtotime('+10 minutes'));
+                    if ($userToken->save(false)) {
+
+                        $html = '
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin:auto; padding:20px; background:#f9f9f9;">
+        <h2 style="text-align:center; color:#4CAF50; margin-bottom:10px;">
+            OTP Change Password
+        </h2>
+        <p style="font-size:16px; color:#333;">
+            Xin chào <strong>'.htmlspecialchars($user->username).'</strong>,
+        </p>
+        <p style="font-size:16px; color:#333;">
+            Đây là mã OTP để đổi mật khẩu tài khoản của bạn. 
+            Mã này chỉ có hiệu lực <strong>10 phút</strong> kể từ thời điểm gửi.
+        </p>
+        <div style="text-align:center; margin:30px 0;">
+            <span style="
+                display:inline-block;
+                font-size:32px;
+                letter-spacing:8px;
+                color:#ffffff;
+                background:#4CAF50;
+                padding:12px 24px;
+                border-radius:8px;
+                font-weight:bold;
+            ">'.$otp.'</span>
+        </div>
+        <p style="font-size:14px; color:#777;">
+            Nếu bạn không yêu cầu đổi mật khẩu, vui lòng bỏ qua email này.
+        </p>
+        <hr style="border:none; border-top:1px solid #ddd; margin:30px 0;">
+        <p style="font-size:12px; color:#aaa; text-align:center;">
+            © '.date('Y').' Hung Store
+        </p>
+    </div>';
+                        Yii::$app->mailer->compose()
+                            ->setFrom([env('MAIL_USER') => 'Hung Store'])
+                            ->setTo($user->email)
+                            ->setSubject('OTP Change Password Admin Insight')
+                            ->setHtmlBody($html)
+                            ->send();
+
+                        return ResponseBuilder::json(true, [], "CHECK MAIL TO GET OTP! ");
+                    }
+                    return ResponseBuilder::json(false, [], "VALIDATE FAIL! ");
+                }
+                return ResponseBuilder::json(false, null, "CUSTOMER EMPTY! ");
+            }
+            return ResponseBuilder::json(false, null, "MISING PARAMS! ");
+        }
+        return ResponseBuilder::json(false, null, "METHOD ALLOW POST! ");
+    }
+
+    /**
+     * @throws HttpException
+     */
+    public function actionVerifyOtp()
+    {
+        $request = Yii::$app->request;
+        if ($request->isPost) {
+            $otp = $request->post('otp');
+            if (!empty($otp)) {
+                $userToken = UserToken::find()->where(['token' => $otp, 'type' => 'otp'])->one();
+                if (!empty($userToken)) {
+                    $now = new \DateTime();
+                    $expire = new \DateTime($userToken->expire_at);
+                    if ($expire <= $now) {
+                        return ResponseBuilder::json(false, null, "OTP EXPIRED!");
+                    }
+                    return ResponseBuilder::json(true, $userToken->user_id, "Verify Success!");
+                }
+                return ResponseBuilder::json(false, null, "CUSTOMER EMPTY! ");
+            }
+            return ResponseBuilder::json(false, null, "MISING PARAMS! ");
+        }
+        return ResponseBuilder::json(false, null, "METHOD ALLOW POST! ");
     }
 
     /**
