@@ -18,7 +18,8 @@
         "bluerhinos/phpmqtt": "^1.0",
         "yii2-starter-kit/yii2-file-kit": "^2.1",
         "league/flysystem-aws-s3-v3": "^1.0",
-        "bower-asset/jquery": "*"
+        "bower-asset/jquery": "*",
+        "yiisoft/yii2-symfonymailer": "^4.0"
     },
     "require-dev": {
         "yidas/yii2-bower-asset": "~2.0.13",
