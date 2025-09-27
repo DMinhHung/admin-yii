@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\v1\admin\customer\models;
+namespace app\modules\v1\admin\employee\models;
 
 use app\models\base\Shift as BaseShift;
 

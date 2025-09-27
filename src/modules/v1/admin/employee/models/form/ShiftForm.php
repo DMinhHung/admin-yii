@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\v1\admin\customer\models\form;
+namespace app\modules\v1\admin\employee\models\form;
 
 use app\modules\v1\admin\employee\models\Shift;
 

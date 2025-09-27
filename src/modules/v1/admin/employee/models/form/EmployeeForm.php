@@ -2,7 +2,6 @@
 
 namespace app\modules\v1\admin\employee\models\form;
 
-use Yii;
 use app\modules\v1\admin\employee\models\Employee;
 
 class EmployeeForm extends Employee

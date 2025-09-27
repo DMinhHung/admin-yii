@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\v1\admin\user\controllers;
+namespace app\modules\v1\admin\employee\controllers;
 
 use yii\filters\auth\CompositeAuth;
 use yii\filters\auth\HttpBearerAuth;

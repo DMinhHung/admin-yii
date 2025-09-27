@@ -1,17 +1,17 @@
 <?php
 
-namespace app\modules\v1\admin\customer\models\search;
+namespace app\modules\v1\admin\employee\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\v1\admin\customer\models\WorkSchedule;
+use app\modules\v1\admin\employee\models\Shift;
 
-class WorkScheduleSearch extends WorkSchedule
+class ShiftSearch extends Shift
 {
     public function rules()
     {
         return [
-            [['employee_id', 'shift_id', 'work_date', 'repeat_weekly', 'repeat_days', 'end_date', 'apply_holiday', 'copied_from'], 'safe'],
+            [['name', 'start_time', 'end_time', 'checkin_start', 'checkin_end', 'duration'], 'safe'],
         ];
     }
 
@@ -32,7 +32,7 @@ class WorkScheduleSearch extends WorkSchedule
      */
     public function search($params)
     {
-        $query = WorkSchedule::find();
+        $query = Shift::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -54,8 +54,10 @@ class WorkScheduleSearch extends WorkSchedule
             'updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'work_date', $this->work_date])
-            ->andFilterWhere(['like', 'end_date', $this->end_date]);
+        $query->andFilterWhere(['like', 'start_time', $this->start_time])
+            ->andFilterWhere(['like', 'end_time', $this->end_time])
+            ->andFilterWhere(['like', 'checkin_start', $this->checkin_start])
+            ->andFilterWhere(['like', 'checkin_end', $this->checkin_end]);
 
         return $dataProvider;
     }
