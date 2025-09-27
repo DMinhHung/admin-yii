@@ -17,7 +17,7 @@ use \app\models\EmployeeQuery;
  * @property string $full_name
  * @property string $email
  * @property string $phone
- * @property string $position
+ * @property integer $position
  * @property string $thumbnail
  * @property string $address
  * @property integer $gender
@@ -60,9 +60,9 @@ abstract class Employee extends \yii\db\ActiveRecord
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
             [['username', 'full_name', 'email', 'phone', 'position', 'thumbnail', 'address', 'gender', 'birthday', 'start_date', 'status'], 'default', 'value' => null],
-            [['gender', 'status'], 'integer'],
+            [['position', 'gender', 'status'], 'integer'],
             [['birthday', 'start_date'], 'safe'],
-            [['username', 'full_name', 'email', 'phone', 'position', 'thumbnail', 'address'], 'string', 'max' => 255]
+            [['username', 'full_name', 'email', 'phone', 'thumbnail', 'address'], 'string', 'max' => 255]
         ]);
     }
 

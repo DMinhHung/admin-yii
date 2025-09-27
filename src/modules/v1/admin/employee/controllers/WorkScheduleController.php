@@ -1,19 +1,36 @@
 <?php
 
-namespace app\modules\v1\admin\customer\controllers;
+namespace app\modules\v1\admin\employee\controllers;
 
-use app\helpers\ResponseBuilder;
-use app\modules\v1\admin\customer\models\form\ShiftForm;
-use app\modules\v1\admin\employee\models\search\ShiftSearch;
-use app\modules\v1\admin\employee\models\Shift;
 use Yii;
 use yii\rest\Controller;
+use app\helpers\ResponseBuilder;
+use app\modules\v1\admin\employee\models\WorkSchedule;
+use app\modules\v1\admin\employee\models\form\WorkScheduleForm;
+use app\modules\v1\admin\employee\models\search\WorkScheduleSearch;
 
-class ShiftController extends Controller
+class WorkScheduleController extends Controller
 {
     public function actionIndex()
     {
-        return ResponseBuilder::json(true, (new ShiftSearch())->search(Yii::$app->request->queryParams));
+        return ResponseBuilder::json(true, (new WorkScheduleSearch())->search(Yii::$app->request->queryParams));
+    }
+
+    public function actionView(int $id)
+    {
+        $request = Yii::$app->request;
+        if ($request->isGet) {
+            $id = $request->get('id');
+            if (!empty($id)) {
+                $brand = WorkSchedule::find()->where(['id' => $id])->one();
+                if (!empty($brand)) {
+                    return ResponseBuilder::json(true, $brand, "GET SUCCESS! ");
+                }
+                return ResponseBuilder::json(true, $brand->getErrors(), "BRAND EMPTY! ");
+            }
+            return ResponseBuilder::json(false, null, "MISSING PARAMS! ");
+        }
+        return ResponseBuilder::json(false, null, "METHOD ALLOW GET! ");
     }
 
     public function actionCreate()
@@ -22,7 +39,7 @@ class ShiftController extends Controller
         if ($request->isPost) {
             $data = $request->post();
             if (!empty($data)) {
-                $form = new ShiftForm();
+                $form = new WorkScheduleForm();
                 $form->load($data);
                 if ($form->validate() && $form->save()) {
                     return ResponseBuilder::json(true, $form, "CREATE SUCCESS! ");
@@ -40,7 +57,7 @@ class ShiftController extends Controller
         if ($request->isPost) {
             $id = $request->post('id');
             if (!empty($id)) {
-                $form = ShiftForm::find()->where(['id' => $id, 'status' => Shift::STATUS_ACTIVE])->one();
+                $form = WorkScheduleForm::find()->where(['id' => $id, 'status' => WorkSchedule::STATUS_ACTIVE])->one();
                 if (!empty($form)) {
                     $form->load($request->post());
                     if ($form->validate() && $form->save()) {
@@ -48,7 +65,7 @@ class ShiftController extends Controller
                     }
                     return ResponseBuilder::json(true, $form->getErrors(), "VALIDATE FAIL! ");
                 }
-                return ResponseBuilder::json(true, $form->getErrors(), "SHIFT EMPTY! ");
+                return ResponseBuilder::json(true, $form->getErrors(), "WORK SCHEDULE EMPTY! ");
             }
             return ResponseBuilder::json(false, [], "MISSING PARAMS! ");
         }
@@ -61,9 +78,9 @@ class ShiftController extends Controller
         if ($request->isPost) {
             $id = $request->post('id');
             if (!empty($id)) {
-                $workSchedule = Shift::find()->where(['id' => $id, 'status' => Shift::STATUS_ACTIVE])->one();
+                $workSchedule = WorkSchedule::find()->where(['id' => $id, 'status' => WorkSchedule::STATUS_ACTIVE])->one();
                 if (!empty($workSchedule)) {
-                    $workSchedule->status = Shift::STATUS_DELETED;
+                    $workSchedule->status = WorkSchedule::STATUS_DELETED;
                     $workSchedule->save(false);
                     return ResponseBuilder::json(true, $workSchedule, "UPDATE SUCCESS! ");
                 }
@@ -73,5 +90,4 @@ class ShiftController extends Controller
         }
         return ResponseBuilder::json(false, null, "METHOD ALLOW POST! ");
     }
-
 }

@@ -1,13 +1,13 @@
 <?php
 
-namespace app\modules\v1\admin\customer\controllers;
+namespace app\modules\v1\admin\employee\controllers;
 
-use app\helpers\ResponseBuilder;
-use app\modules\v1\admin\customer\models\form\ShiftForm;
-use app\modules\v1\admin\employee\models\search\ShiftSearch;
-use app\modules\v1\admin\employee\models\Shift;
 use Yii;
 use yii\rest\Controller;
+use app\helpers\ResponseBuilder;
+use app\modules\v1\admin\employee\models\Shift;
+use app\modules\v1\admin\customer\models\form\ShiftForm;
+use app\modules\v1\admin\employee\models\search\ShiftSearch;
 
 class ShiftController extends Controller
 {

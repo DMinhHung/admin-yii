@@ -2,11 +2,11 @@
 
 namespace app\modules\v1\admin\customer\controllers;
 
-use Yii;
-use app\modules\v1\admin\customer\models\WorkSchedule;
-use app\modules\v1\admin\customer\models\form\WorkScheduleForm;
-use app\modules\v1\admin\customer\models\search\WorkScheduleSearch;
 use app\helpers\ResponseBuilder;
+use app\modules\v1\admin\customer\models\form\WorkScheduleForm;
+use app\modules\v1\admin\employee\models\search\WorkScheduleSearch;
+use app\modules\v1\admin\employee\models\WorkSchedule;
+use Yii;
 use yii\rest\Controller;
 
 class WorkScheduleController extends Controller

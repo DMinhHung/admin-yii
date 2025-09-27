@@ -1,6 +1,6 @@
 <?php
 
-namespace app\modules\v1\admin\customer\models;
+namespace app\modules\v1\admin\employee\models;
 
 use app\models\base\WorkSchedule as BaseWorkSchedule;
 
@@ -26,7 +26,7 @@ class WorkSchedule extends BaseWorkSchedule
 
     public function getEmployee()
     {
-        return $this->hasOne(Customer::class, ['id' => 'employee_id']);
+        return $this->hasOne(Employee::class, ['id' => 'employee_id']);
     }
 
     public function getShift()
