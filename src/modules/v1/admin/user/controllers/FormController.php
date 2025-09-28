@@ -129,12 +129,12 @@ class FormController extends Controller
             if (!empty($otp)) {
                 $userToken = UserToken::find()->where(['token' => $otp, 'type' => 'otp'])->one();
                 if (!empty($userToken)) {
-                    $now = new \DateTime();
-                    $expire = new \DateTime($userToken->expire_at);
+                    $now = time();
+                    $expire = strtotime($userToken->expire_at);
                     if ($expire <= $now) {
                         return ResponseBuilder::json(false, null, "OTP EXPIRED!");
                     }
-                    return ResponseBuilder::json(true, $userToken->user_id, "Verify Success!");
+                    return ResponseBuilder::json(true, ['user_id' => $userToken->user_id], "Verify Success!");
                 }
                 return ResponseBuilder::json(false, null, "CUSTOMER EMPTY! ");
             }

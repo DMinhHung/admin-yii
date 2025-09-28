@@ -9,6 +9,7 @@ use app\helpers\ResponseBuilder;
 use app\modules\v1\admin\product\models\ItemVariant;
 use app\modules\v1\admin\product\models\form\ItemVariantForm;
 use app\modules\v1\admin\product\models\ItemVariantAttribute;
+use app\modules\v1\admin\product\models\search\ItemVariantSearch;
 
 
 class ItemVariantController extends Controller
@@ -64,8 +65,8 @@ class ItemVariantController extends Controller
                                 $valueId = $data['item_attribute_value_id'][$k] ?? null;
                                 if ($valueId) {
                                     $iva = new ItemVariantAttribute();
-                                    $iva->item_variant_id       = $item->id;
-                                    $iva->item_attribute_id     = $attrId;
+                                    $iva->item_variant_id = $item->id;
+                                    $iva->item_attribute_id = $attrId;
                                     $iva->item_attribute_value_id = $valueId;
                                     $iva->save(false);
                                 }
@@ -117,5 +118,10 @@ class ItemVariantController extends Controller
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
         return ResponseBuilder::json(false, null, "METHOD ALLOW GET! ");
+    }
+
+    public function actionList()
+    {
+        return ResponseBuilder::json(true, (new ItemVariantSearch())->search(Yii::$app->request->queryParams));
     }
 }

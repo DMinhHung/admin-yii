@@ -7,23 +7,18 @@ namespace app\models\base;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
-use \app\models\ShiftQuery;
+use \app\models\EmployeeUserQuery;
 
 /**
- * This is the base-model class for table "shift".
+ * This is the base-model class for table "employee_user".
  *
  * @property integer $id
- * @property string $name
- * @property string $start_time
- * @property string $end_time
- * @property string $checkin_start
- * @property string $checkin_end
- * @property integer $duration
- * @property integer $status
+ * @property integer $user_id
+ * @property integer $employee_id
  * @property string $created_at
  * @property string $updated_at
  */
-abstract class Shift extends \yii\db\ActiveRecord
+abstract class EmployeeUser extends \yii\db\ActiveRecord
 {
 
     /**
@@ -31,7 +26,7 @@ abstract class Shift extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'shift';
+        return 'employee_user';
     }
 
     /**
@@ -55,10 +50,8 @@ abstract class Shift extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['name', 'start_time', 'end_time', 'checkin_start', 'checkin_end', 'duration', 'status'], 'default', 'value' => null],
-            [['start_time', 'end_time', 'checkin_start', 'checkin_end'], 'safe'],
-            [['duration', 'status'], 'integer'],
-            [['name'], 'string', 'max' => 100]
+            [['user_id', 'employee_id'], 'default', 'value' => null],
+            [['user_id', 'employee_id'], 'integer']
         ]);
     }
 
@@ -69,13 +62,8 @@ abstract class Shift extends \yii\db\ActiveRecord
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
             'id' => 'ID',
-            'name' => 'Name',
-            'start_time' => 'Start Time',
-            'end_time' => 'End Time',
-            'checkin_start' => 'Checkin Start',
-            'checkin_end' => 'Checkin End',
-            'duration' => 'Duration',
-            'status' => 'Status',
+            'user_id' => 'User ID',
+            'employee_id' => 'Employee ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ]);
@@ -83,10 +71,10 @@ abstract class Shift extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return ShiftQuery the active query used by this AR class.
+     * @return EmployeeUserQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new ShiftQuery(static::class);
+        return new EmployeeUserQuery(static::class);
     }
 }

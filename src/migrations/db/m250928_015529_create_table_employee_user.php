@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m250921_124557_create_table_visit_log extends Migration
+class m250928_015529_create_table_employee_user extends Migration
 {
     /**
      * {@inheritdoc}
@@ -13,17 +13,15 @@ class m250921_124557_create_table_visit_log extends Migration
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
         }
-        $this->createTable('{{%visit_log}}', [
+        $this->createTable('{{%employee_user}}', [
             "id" => $this->primaryKey(),
-            "ip" => $this->string(),
-            "agent" => $this->string(),
-            "url" => $this->text(),
-            "method" => $this->string(),
-            "data" => $this->json(),
+            "user_id" => $this->integer(),
+            "employee_id" => $this->integer(),
             "created_at" => $this->dateTime(),
             "updated_at" => $this->dateTime()
         ], $tableOptions);
 
+        $this->createIndex("idx-employee-user_id-employee_id", "employee_user", ["user_id", "employee_id"]);
     }
 
     /**
@@ -31,7 +29,7 @@ class m250921_124557_create_table_visit_log extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%visit_log}}');
+        $this->dropTable('{{%employee_user}}');
     }
 
     /*
@@ -43,7 +41,7 @@ class m250921_124557_create_table_visit_log extends Migration
 
     public function down()
     {
-        echo "m250921_124557_create_table_visit_log cannot be reverted.\n";
+        echo "m250928_015529_create_table_employee_user cannot be reverted.\n";
 
         return false;
     }
