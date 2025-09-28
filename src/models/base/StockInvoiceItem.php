@@ -14,9 +14,10 @@ use \app\models\StockInvoiceItemQuery;
  *
  * @property integer $id
  * @property string $invoice_id
- * @property integer $product_id
+ * @property integer $product_variant_id
  * @property integer $warehouse_id
  * @property integer $quantity
+ * @property integer $old_quantity
  * @property double $price
  * @property integer $total
  * @property string $created_at
@@ -54,8 +55,8 @@ abstract class StockInvoiceItem extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['invoice_id', 'product_id', 'warehouse_id', 'quantity', 'price', 'total'], 'default', 'value' => null],
-            [['product_id', 'warehouse_id', 'quantity', 'total'], 'integer'],
+            [['invoice_id', 'product_variant_id', 'warehouse_id', 'quantity', 'old_quantity', 'price', 'total'], 'default', 'value' => null],
+            [['product_variant_id', 'warehouse_id', 'quantity', 'old_quantity', 'total'], 'integer'],
             [['price'], 'number'],
             [['invoice_id'], 'string', 'max' => 255]
         ]);
@@ -69,9 +70,10 @@ abstract class StockInvoiceItem extends \yii\db\ActiveRecord
         return ArrayHelper::merge(parent::attributeLabels(), [
             'id' => 'ID',
             'invoice_id' => 'Invoice ID',
-            'product_id' => 'Product ID',
+            'product_variant_id' => 'Product Variant ID',
             'warehouse_id' => 'Warehouse ID',
             'quantity' => 'Quantity',
+            'old_quantity' => 'Old Quantity',
             'price' => 'Price',
             'total' => 'Total',
             'created_at' => 'Created At',
