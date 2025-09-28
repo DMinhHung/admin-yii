@@ -21,7 +21,7 @@ use \app\models\VendorQuery;
  * @property string $district
  * @property string $ward
  * @property string $address
- * @property integer $group_customer
+ * @property integer $group_vendor
  * @property integer $type
  * @property string $tax_code
  * @property string $company_name
@@ -61,8 +61,8 @@ abstract class Vendor extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['name', 'code', 'phone', 'email', 'city', 'district', 'ward', 'address', 'group_customer', 'type', 'tax_code', 'company_name', 'current_debt'], 'default', 'value' => null],
-            [['group_customer', 'type'], 'integer'],
+            [['name', 'code', 'phone', 'email', 'city', 'district', 'ward', 'address', 'group_vendor', 'type', 'tax_code', 'company_name', 'current_debt'], 'default', 'value' => null],
+            [['group_vendor', 'type'], 'integer'],
             [['current_debt'], 'number'],
             [['name', 'code', 'phone', 'email', 'city', 'district', 'ward', 'address', 'tax_code', 'company_name'], 'string', 'max' => 255]
         ]);
@@ -83,7 +83,7 @@ abstract class Vendor extends \yii\db\ActiveRecord
             'district' => 'District',
             'ward' => 'Ward',
             'address' => 'Address',
-            'group_customer' => 'Group Customer',
+            'group_vendor' => 'Group Vendor',
             'type' => 'Type',
             'tax_code' => 'Tax Code',
             'company_name' => 'Company Name',

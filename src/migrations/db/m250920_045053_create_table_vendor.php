@@ -23,7 +23,7 @@ class m250920_045053_create_table_vendor extends Migration
             "district" => $this->string(),
             "ward" => $this->string(),
             "address" => $this->string(),
-            "group_customer" => $this->integer(),
+            "group_vendor" => $this->integer(),
             "type" => $this->integer(),
             "tax_code" => $this->string(),
             "company_name" => $this->string(),

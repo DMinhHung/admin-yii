@@ -13,6 +13,7 @@ class VendorForm extends Vendor
             [["name", "phone", "email", "city", "company_name"], "required"],
             [["name"], "unique", 'filter' => ["!=", "status", self::STATUS_DELETED]],
             ["status", "default", "value" => self::STATUS_ACTIVE],
+            ["current_debt", "default", "value" => 0],
         ]);
     }
 }

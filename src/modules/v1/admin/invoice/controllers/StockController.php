@@ -3,6 +3,7 @@
 namespace app\modules\v1\admin\invoice\controllers;
 
 use Yii;
+use app\models\ItemVariant;
 use app\helpers\ResponseBuilder;
 use app\modules\v1\admin\product\models\Item;
 use app\modules\v1\admin\invoice\models\StockInvoice;
@@ -31,9 +32,10 @@ class StockController extends Controller
                                 $invoiceItem->load($itemData);
                                 $invoiceItem->invoice_id = $invoice->id;
                                 $invoiceItem->save(false);
-
-                                $item = Item::find()->where(['id' => $invoiceItem->product_id])->one();
+                                $item = ItemVariant::find()->where(['id' => $invoiceItem->product_variant_id])->one();
                                 if (!empty($item)) {
+                                    $invoiceItem->old_quantity = $item->stock;
+                                    $invoiceItem->save(false);
                                     if ($invoice->type == StockInvoice::TYPE_IN) {
                                         $item->stock += $invoiceItem->quantity;
                                     } elseif ($invoice->type == StockInvoice::TYPE_OUT || $invoice->type == StockInvoice::TYPE_DESTROY) {
@@ -69,31 +71,29 @@ class StockController extends Controller
                 if (!empty($invoice)) {
                     $transaction = Yii::$app->db->beginTransaction();
                     try {
-                        $oldItems = $invoice->items ?? [];
-                        foreach ($oldItems as $oldItem) {
-                            $item = Item::find()->where(['id' => $oldItem->product_id])->one();
-                            if (!empty($item)) {
-                                if ($invoice->type == StockInvoice::TYPE_IN) {
-                                    $item->stock -= $oldItem->quantity;
-                                } elseif ($invoice->type == StockInvoice::TYPE_OUT || $invoice->type == StockInvoice::TYPE_DESTROY) {
-                                    $item->stock += $oldItem->quantity;
-                                }
-                                $item->save(false);
-                            }
-                        }
-
                         $invoice->load($data);
                         if ($invoice->validate() && $invoice->save()) {
-                            StockInvoiceItem::deleteAll(['invoice_id' => $invoice->id]);
+                            $invoiceItems = StockInvoiceItem::find()->where(['invoice_id' => $invoice->id])->all();
+                            foreach ($invoiceItems as $iv) {
+                                $item = ItemVariant::find()->where(['id' => $iv->product_variant_id, 'status' => ItemVariant::STATUS_ACTIVE])->one();
+                                $item->stock = $iv->old_quantity;
+                                $item->save(false);
+                            }
                             $itemsData = $data['items'] ?? [];
                             if (!empty($itemsData)) {
                                 foreach ($itemsData as $itemData) {
-                                    $invoiceItem = new StockInvoiceItem();
-                                    $invoiceItem->load($itemData);
-                                    $invoiceItem->invoice_id = $invoice->id;
+                                    $invoiceItem = StockInvoiceItem::find()->where(['invoice_id' => $invoice->id, 'product_variant_id' => $itemData['product_variant_id']])->one();
+                                    if (!empty($invoiceItem)) {
+                                        $invoiceItem->quantity = $itemData['quantity'];
+                                        $invoiceItem->price = $itemData['price'];
+                                        $invoiceItem->total = $itemData['total'];
+                                    } else {
+                                        $invoiceItem = new StockInvoiceItem();
+                                        $invoiceItem->load($itemData);
+                                        $invoiceItem->invoice_id = $invoice->id;
+                                    }
                                     $invoiceItem->save(false);
-
-                                    $item = Item::find()->where(['id' => $invoiceItem->product_id])->one();
+                                    $item = ItemVariant::find()->where(['id' => $invoiceItem->product_variant_id])->one();
                                     if (!empty($item)) {
                                         if ($invoice->type == StockInvoice::TYPE_IN) {
                                             $item->stock += $invoiceItem->quantity;

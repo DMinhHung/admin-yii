@@ -14,7 +14,7 @@ use \app\models\StockCheckItemQuery;
  *
  * @property integer $id
  * @property string $check_id
- * @property integer $product_id
+ * @property integer $product_variant_id
  * @property integer $actual_quantity
  * @property integer $system_quantity
  * @property integer $difference_quantity
@@ -54,8 +54,8 @@ abstract class StockCheckItem extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['check_id', 'product_id', 'actual_quantity', 'system_quantity', 'difference_quantity', 'note'], 'default', 'value' => null],
-            [['product_id', 'actual_quantity', 'system_quantity', 'difference_quantity'], 'integer'],
+            [['check_id', 'product_variant_id', 'actual_quantity', 'system_quantity', 'difference_quantity', 'note'], 'default', 'value' => null],
+            [['product_variant_id', 'actual_quantity', 'system_quantity', 'difference_quantity'], 'integer'],
             [['check_id', 'note'], 'string', 'max' => 255]
         ]);
     }
@@ -68,7 +68,7 @@ abstract class StockCheckItem extends \yii\db\ActiveRecord
         return ArrayHelper::merge(parent::attributeLabels(), [
             'id' => 'ID',
             'check_id' => 'Check ID',
-            'product_id' => 'Product ID',
+            'product_variant_id' => 'Product Variant ID',
             'actual_quantity' => 'Actual Quantity',
             'system_quantity' => 'System Quantity',
             'difference_quantity' => 'Difference Quantity',

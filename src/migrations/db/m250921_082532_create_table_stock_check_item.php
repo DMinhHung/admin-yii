@@ -16,7 +16,7 @@ class m250921_082532_create_table_stock_check_item extends Migration
         $this->createTable('{{%stock_check_item}}', [
             "id" => $this->primaryKey(),
             "check_id" => $this->string(),
-            "product_id" => $this->integer(),
+            "product_variant_id" => $this->integer(),
             "actual_quantity" => $this->integer(),
             "system_quantity" => $this->integer(),
             "difference_quantity" => $this->integer(),
@@ -26,7 +26,7 @@ class m250921_082532_create_table_stock_check_item extends Migration
         ], $tableOptions);
 
         $this->createIndex("idx-stock_check_item-check_id", "stock_check_item", "check_id");
-        $this->createIndex("idx-stock_check_item-product_id", "stock_check_item", "product_id");
+        $this->createIndex("idx-stock_check_item-product_variant_id", "stock_check_item", "product_variant_id");
     }
 
     /**

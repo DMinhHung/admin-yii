@@ -16,9 +16,10 @@ class m250921_082443_create_table_stock_invoice_item extends Migration
         $this->createTable('{{%stock_invoice_item}}', [
             "id" => $this->primaryKey(),
             "invoice_id" => $this->string(),
-            "product_id" => $this->integer(),
+            "product_variant_id" => $this->integer(),
             "warehouse_id" => $this->integer(),
             "quantity" => $this->integer(),
+            "old_quantity" => $this->integer(),
             "price" => $this->double(),
             "total" => $this->integer(),
             "created_at" => $this->dateTime(),
@@ -26,7 +27,7 @@ class m250921_082443_create_table_stock_invoice_item extends Migration
         ], $tableOptions);
 
         $this->createIndex("idx-stock_invoice_item-invoice_id", "stock_invoice_item", "invoice_id");
-        $this->createIndex("idx-stock_invoice_item-product_id", "stock_invoice_item", "product_id");
+        $this->createIndex("idx-stock_invoice_item-product_variant_id", "stock_invoice_item", "product_variant_id");
     }
 
     /**
