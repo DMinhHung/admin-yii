@@ -22,7 +22,7 @@ class m250911_032710_create_table_item extends Migration
             "slug" => $this->string(),
             "description" => $this->string(),
             "thumbnail" => $this->string(),
-            "gallery" => $this->json(),
+            "gallery" => $this->text(),
             "sku" => $this->string(),
             "barcode" => $this->string(),
             "price" => $this->double(),

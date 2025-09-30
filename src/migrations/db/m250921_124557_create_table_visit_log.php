@@ -19,7 +19,7 @@ class m250921_124557_create_table_visit_log extends Migration
             "agent" => $this->string(),
             "url" => $this->text(),
             "method" => $this->string(),
-            "data" => $this->json(),
+            "data" => $this->text(),
             "created_at" => $this->dateTime(),
             "updated_at" => $this->dateTime()
         ], $tableOptions);
