@@ -2,12 +2,12 @@
 
 namespace app\models;
 
-use \app\models\base\Banner as BaseBanner;
+use \app\models\base\News as BaseNews;
 
 /**
- * This is the model class for table "banner".
+ * This is the model class for table "news".
  */
-class Banner extends BaseBanner
+class News extends BaseNews
 {
     const STATUS_ACTIVE = 1;
     const STATUS_INACTIVE = 0;

@@ -1,17 +1,18 @@
 <?php
 
-namespace app\modules\v1\admin\customer\models\search;
+
+namespace app\modules\v1\admin\news\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\v1\admin\customer\models\Customer;
+use app\modules\v1\admin\news\models\News;
 
-class CustomerSearch extends Customer
+class NewsSearch extends News
 {
     public function rules()
     {
         return [
-            [['name', 'code', 'phone', 'email', 'city'], 'safe'],
+            [['title', 'slug', 'content', 'status'], 'safe'],
         ];
     }
 
@@ -32,7 +33,7 @@ class CustomerSearch extends Customer
      */
     public function search($params)
     {
-        $query = Customer::find();
+        $query = News::find()->andWhere(["<>", "status", News::STATUS_DELETED]);
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -50,15 +51,14 @@ class CustomerSearch extends Customer
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'users.id' => $this->id,
+            'slug' => $this->slug,
+            "status" => $this->status,
+            'users.created_at' => $this->created_at,
+            'users.updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'code', $this->code])
-            ->andFilterWhere(['like', 'phone', $this->phone])
-            ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'city', $this->city]);
+        $query->andFilterWhere(['like', 'title', $this->title]);
 
         return $dataProvider;
     }

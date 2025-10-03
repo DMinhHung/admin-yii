@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m251003_165855_create_table_new extends Migration
+class m251003_165855_create_table_news extends Migration
 {
     /**
      * {@inheritdoc}
@@ -13,7 +13,7 @@ class m251003_165855_create_table_new extends Migration
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
         }
-        $this->createTable('{{%new}}', [
+        $this->createTable('{{%news}}', [
             "id" => $this->primaryKey(),
             "title" => $this->string(),
             "slug" => $this->string(),
@@ -31,7 +31,7 @@ class m251003_165855_create_table_new extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%new}}');
+        $this->dropTable('{{%news}}');
     }
 
     /*
