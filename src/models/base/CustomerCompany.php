@@ -7,10 +7,10 @@ namespace app\models\base;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
-use \app\models\CustomerQuery;
+use \app\models\CustomerCompanyQuery;
 
 /**
- * This is the base-model class for table "customer".
+ * This is the base-model class for table "customer_company".
  *
  * @property integer $id
  * @property string $name
@@ -18,16 +18,26 @@ use \app\models\CustomerQuery;
  * @property string $phone
  * @property integer $gender
  * @property string $email
+ * @property string $fb_url
  * @property string $thumbnail
  * @property string $city
  * @property string $district
  * @property string $ward
  * @property string $address
+ * @property integer $group_customer
+ * @property integer $type
+ * @property string $tax_code
+ * @property string $company_name
+ * @property string $national
+ * @property string $passport_number
+ * @property string $bank_name
+ * @property string $bank_account_number
+ * @property double $current_debt
  * @property integer $status
  * @property string $created_at
  * @property string $updated_at
  */
-abstract class Customer extends \yii\db\ActiveRecord
+abstract class CustomerCompany extends \yii\db\ActiveRecord
 {
 
     /**
@@ -35,7 +45,7 @@ abstract class Customer extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'customer';
+        return 'customer_company';
     }
 
     /**
@@ -59,9 +69,10 @@ abstract class Customer extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['name', 'code', 'phone', 'gender', 'email', 'thumbnail', 'city', 'district', 'ward', 'address', 'status'], 'default', 'value' => null],
-            [['gender', 'status'], 'integer'],
-            [['name', 'code', 'phone', 'email', 'thumbnail', 'city', 'district', 'ward', 'address'], 'string', 'max' => 255]
+            [['name', 'code', 'phone', 'gender', 'email', 'fb_url', 'thumbnail', 'city', 'district', 'ward', 'address', 'group_customer', 'type', 'tax_code', 'company_name', 'national', 'passport_number', 'bank_name', 'bank_account_number', 'current_debt', 'status'], 'default', 'value' => null],
+            [['gender', 'group_customer', 'type', 'status'], 'integer'],
+            [['current_debt'], 'number'],
+            [['name', 'code', 'phone', 'email', 'fb_url', 'thumbnail', 'city', 'district', 'ward', 'address', 'tax_code', 'company_name', 'national', 'passport_number', 'bank_name', 'bank_account_number'], 'string', 'max' => 255]
         ]);
     }
 
@@ -77,11 +88,21 @@ abstract class Customer extends \yii\db\ActiveRecord
             'phone' => 'Phone',
             'gender' => 'Gender',
             'email' => 'Email',
+            'fb_url' => 'Fb Url',
             'thumbnail' => 'Thumbnail',
             'city' => 'City',
             'district' => 'District',
             'ward' => 'Ward',
             'address' => 'Address',
+            'group_customer' => 'Group Customer',
+            'type' => 'Type',
+            'tax_code' => 'Tax Code',
+            'company_name' => 'Company Name',
+            'national' => 'National',
+            'passport_number' => 'Passport Number',
+            'bank_name' => 'Bank Name',
+            'bank_account_number' => 'Bank Account Number',
+            'current_debt' => 'Current Debt',
             'status' => 'Status',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
@@ -90,10 +111,10 @@ abstract class Customer extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return CustomerQuery the active query used by this AR class.
+     * @return CustomerCompanyQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CustomerQuery(static::class);
+        return new CustomerCompanyQuery(static::class);
     }
 }

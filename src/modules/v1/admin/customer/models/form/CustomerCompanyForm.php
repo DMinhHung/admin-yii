@@ -1,11 +1,12 @@
 <?php
 
+
 namespace app\modules\v1\admin\customer\models\form;
 
 use Yii;
-use app\modules\v1\admin\customer\models\Customer;
+use app\modules\v1\admin\customer\models\CustomerCompany;
 
-class CustomerForm extends Customer
+class CustomerCompanyForm extends CustomerCompany
 {
     public function rules()
     {
@@ -13,6 +14,7 @@ class CustomerForm extends Customer
             [["name", "phone", "email"], "required"],
             [["name"], "unique", 'filter' => ["!=", "status", self::STATUS_DELETED]],
             ["status", "default", "value" => self::STATUS_ACTIVE],
+            ["current_debt", "default", "value" => 0],
         ]);
     }
 }

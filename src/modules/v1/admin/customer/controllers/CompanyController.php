@@ -1,14 +1,15 @@
 <?php
 
-namespace app\modules\v1\admin\brand\controllers;
+
+namespace app\modules\v1\admin\customer\controllers;
 
 use Yii;
 use app\helpers\ResponseBuilder;
-use app\modules\v1\admin\brand\models\Brand;
-use app\modules\v1\admin\brand\models\form\BrandForm;
-use app\modules\v1\admin\brand\models\search\BrandSearch;
+use app\modules\v1\admin\customer\models\CustomerCompany;
+use app\modules\v1\admin\customer\models\form\CustomerCompanyForm;
+use app\modules\v1\admin\customer\models\search\CustomerCompanySearch;
 
-class FormController extends Controller
+class CompanyController extends Controller
 {
 
     public function actionCreate()
@@ -17,14 +18,14 @@ class FormController extends Controller
         if ($request->isPost) {
             $data = $request->post();
             if (!empty($data)) {
-                $brand = new BrandForm();
+                $brand = new CustomerCompanyForm();
                 $brand->load($data);
                 if ($brand->validate() && $brand->save()) {
                     return ResponseBuilder::json(true, $brand, "CREATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, [], "VALIDATE FAIL! ");
+                return ResponseBuilder::json(false, $brand->getErrors(), "VALIDATE FAIL! ");
             }
-            return ResponseBuilder::json(false, null, "MISING PARAMS! ");
+            return ResponseBuilder::json(false, null, "MISSING PARAMS! ");
         }
         return ResponseBuilder::json(false, null, "METHOD ALLOW POST! ");
 
@@ -37,15 +38,15 @@ class FormController extends Controller
             $data = $request->post();
             $id = $request->post('id');
             if (!empty($id)) {
-                $brand = BrandForm::find()->where(['id' => $id])->one();
+                $brand = CustomerCompanyForm::find()->where(['id' => $id])->one();
                 if (!empty($brand)) {
                     $brand->load($data);
                     if ($brand->validate() && $brand->save()) {
                         return ResponseBuilder::json(true, $brand, "UPDATE SUCCESS! ");
                     }
-                    return ResponseBuilder::json(true, $brand->getErrors(), "VALIDATE FAIL! ");
+                    return ResponseBuilder::json(false, $brand->getErrors(), "VALIDATE FAIL! ");
                 }
-                return ResponseBuilder::json(true, [], "BRAND EMPTY! ");
+                return ResponseBuilder::json(false, $brand->getErrors(), "CUSTOMER EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -59,13 +60,13 @@ class FormController extends Controller
             $data = $request->post();
             $id = $data['id'];
             if (!empty($id)) {
-                $brand = Brand::find()->where(['id' => $id])->one();
+                $brand = CustomerCompany::find()->where(['id' => $id])->one();
                 if (!empty($brand)) {
-                    $brand->status = Brand::STATUS_DELETED;
+                    $brand->status = CustomerCompany::STATUS_DELETED;
                     $brand->save(false);
                     return ResponseBuilder::json(true, $brand, "UPDATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, [], "BRAND EMPTY! ");
+                return ResponseBuilder::json(false, $brand->getErrors(), "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -78,11 +79,11 @@ class FormController extends Controller
         if ($request->isGet) {
             $id = $request->get('id');
             if (!empty($id)) {
-                $brand = Brand::find()->where(['id' => $id])->one();
+                $brand = CustomerCompany::find()->where(['id' => $id])->one();
                 if (!empty($brand)) {
                     return ResponseBuilder::json(true, $brand, "GET SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, [], "BRAND EMPTY! ");
+                return ResponseBuilder::json(false, $brand->getErrors(), "DATA EMPTY! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
@@ -91,6 +92,6 @@ class FormController extends Controller
 
     public function actionIndex()
     {
-        return ResponseBuilder::json(true, (new BrandSearch())->search(Yii::$app->request->queryParams));
+        return ResponseBuilder::json(true, (new CustomerCompanySearch())->search(Yii::$app->request->queryParams));
     }
 }

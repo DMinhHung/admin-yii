@@ -1,17 +1,18 @@
 <?php
 
+
 namespace app\modules\v1\admin\customer\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\modules\v1\admin\customer\models\Customer;
+use app\modules\v1\admin\customer\models\CustomerCompany;
 
-class CustomerSearch extends Customer
+class CustomerCompanySearch extends CustomerCompany
 {
     public function rules()
     {
         return [
-            [['name', 'code', 'phone', 'email', 'city'], 'safe'],
+            [['name', 'code', 'phone', 'email', 'city', 'group_customer', 'company_name', 'current_debt'], 'safe'],
         ];
     }
 
@@ -32,7 +33,7 @@ class CustomerSearch extends Customer
      */
     public function search($params)
     {
-        $query = Customer::find();
+        $query = CustomerCompany::find();
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -58,7 +59,9 @@ class CustomerSearch extends Customer
             ->andFilterWhere(['like', 'code', $this->code])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'city', $this->city]);
+            ->andFilterWhere(['like', 'city', $this->city])
+            ->andFilterWhere(['like', 'company_name', $this->company_name])
+            ->andFilterWhere(['like', 'current_debt', $this->current_debt]);
 
         return $dataProvider;
     }

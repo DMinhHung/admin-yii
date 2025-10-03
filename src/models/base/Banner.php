@@ -7,27 +7,21 @@ namespace app\models\base;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\behaviors\TimestampBehavior;
-use \app\models\CustomerQuery;
+use \app\models\BannerQuery;
 
 /**
- * This is the base-model class for table "customer".
+ * This is the base-model class for table "banner".
  *
  * @property integer $id
- * @property string $name
- * @property string $code
- * @property string $phone
- * @property integer $gender
- * @property string $email
- * @property string $thumbnail
- * @property string $city
- * @property string $district
- * @property string $ward
- * @property string $address
+ * @property string $title
+ * @property string $image
+ * @property string $link
  * @property integer $status
+ * @property integer $sort_order
  * @property string $created_at
  * @property string $updated_at
  */
-abstract class Customer extends \yii\db\ActiveRecord
+abstract class Banner extends \yii\db\ActiveRecord
 {
 
     /**
@@ -35,7 +29,7 @@ abstract class Customer extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'customer';
+        return 'banner';
     }
 
     /**
@@ -59,9 +53,10 @@ abstract class Customer extends \yii\db\ActiveRecord
     {
         $parentRules = parent::rules();
         return ArrayHelper::merge($parentRules, [
-            [['name', 'code', 'phone', 'gender', 'email', 'thumbnail', 'city', 'district', 'ward', 'address', 'status'], 'default', 'value' => null],
-            [['gender', 'status'], 'integer'],
-            [['name', 'code', 'phone', 'email', 'thumbnail', 'city', 'district', 'ward', 'address'], 'string', 'max' => 255]
+            [['title', 'image', 'link', 'status'], 'default', 'value' => null],
+            [['sort_order'], 'default', 'value' => 0],
+            [['status', 'sort_order'], 'integer'],
+            [['title', 'image', 'link'], 'string', 'max' => 255]
         ]);
     }
 
@@ -72,17 +67,11 @@ abstract class Customer extends \yii\db\ActiveRecord
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
             'id' => 'ID',
-            'name' => 'Name',
-            'code' => 'Code',
-            'phone' => 'Phone',
-            'gender' => 'Gender',
-            'email' => 'Email',
-            'thumbnail' => 'Thumbnail',
-            'city' => 'City',
-            'district' => 'District',
-            'ward' => 'Ward',
-            'address' => 'Address',
+            'title' => 'Title',
+            'image' => 'Image',
+            'link' => 'Link',
             'status' => 'Status',
+            'sort_order' => 'Sort Order',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ]);
@@ -90,10 +79,10 @@ abstract class Customer extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return CustomerQuery the active query used by this AR class.
+     * @return BannerQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new CustomerQuery(static::class);
+        return new BannerQuery(static::class);
     }
 }

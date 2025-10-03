@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m250920_045046_create_table_customer extends Migration
+class m250920_045046_create_table_customer_company extends Migration
 {
     /**
      * {@inheritdoc}
@@ -13,7 +13,7 @@ class m250920_045046_create_table_customer extends Migration
         if ($this->db->driverName === 'mysql') {
             $tableOptions = 'CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci ENGINE=InnoDB';
         }
-        $this->createTable('{{%customer}}', [
+        $this->createTable('{{%customer_company}}', [
             "id" => $this->primaryKey(),
             "name" => $this->string(),
             "code" => $this->string(),
@@ -50,7 +50,7 @@ class m250920_045046_create_table_customer extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%customer}}');
+        $this->dropTable('{{%customer_company}}');
     }
 
     /*
@@ -62,7 +62,7 @@ class m250920_045046_create_table_customer extends Migration
 
     public function down()
     {
-        echo "m250920_045046_create_table_customer cannot be reverted.\n";
+        echo "m250920_045046_create_table_customerCompany cannot be reverted.\n";
 
         return false;
     }
