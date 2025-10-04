@@ -10,7 +10,8 @@ class Item extends BaseItem
     {
         return array_merge(parent::fields(), [
             'brand',
-            'category'
+            'category',
+            'item_variant' => 'itemVariant',
         ]);
     }
 
@@ -22,5 +23,10 @@ class Item extends BaseItem
     public function getCategory()
     {
         return $this->hasOne(Category::class, ['id' => 'category_id']);
+    }
+
+    public function getItemVariant()
+    {
+        return $this->hasMany(ItemVariant::class, ['item_id' => 'id']);
     }
 }

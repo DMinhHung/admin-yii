@@ -31,7 +31,7 @@ class ItemSearch extends Item
      */
     public function search($params)
     {
-        $query = Item::find();
+        $query = Item::find()->with('category', 'brand');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,

@@ -5,8 +5,8 @@ namespace app\modules\v1\end_user\product\controllers;
 use Yii;
 use yii\web\HttpException;
 use app\helpers\ResponseBuilder;
-use app\modules\v1\admin\product\models\Item;
-use app\modules\v1\admin\product\models\search\ItemSearch;
+use app\modules\v1\end_user\product\models\Item;
+use app\modules\v1\end_user\product\models\search\ItemSearch;
 
 
 class FormController extends Controller
@@ -28,7 +28,7 @@ class FormController extends Controller
         if ($request->isGet) {
             $id = $request->get('id');
             if (!empty($id)) {
-                $item = Item::find()->where(['id' => $id])->one();
+                $item = Item::find()->with(['brand', 'category', 'itemVariant'])->where(['id' => $id])->one();
                 if (!empty($item)) {
                     return ResponseBuilder::json(true, $item, "GET SUCCESS! ");
                 }

@@ -15,7 +15,6 @@ class ItemVariant extends BaseItemVariant
             'sku',
             'price',
             'stock',
-            'item',
             'barcode',
             'attributes' => function () {
                 return array_map(function ($attr) {
@@ -28,11 +27,6 @@ class ItemVariant extends BaseItemVariant
                 }, $this->itemVariantAttribute);
             },
         ];
-    }
-
-    public function getItem()
-    {
-        return $this->hasOne(Item::class, ['id' => 'item_id']);
     }
 
     public function getItemVariantAttribute()
