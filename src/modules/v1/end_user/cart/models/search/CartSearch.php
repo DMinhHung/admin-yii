@@ -55,8 +55,6 @@ class CartSearch extends Cart
             'users.updated_at' => $this->updated_at,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
-
         return $dataProvider;
     }
 }

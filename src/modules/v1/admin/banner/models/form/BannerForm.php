@@ -11,8 +11,8 @@ class BannerForm extends Banner
     public function rules()
     {
         return array_merge(parent::rules(), [
-            ["customer_id", "required"],
-            ["customer_id", "unique", 'filter' => ["!=", "status", self::STATUS_DELETED]],
+            ["title", "required"],
+            ["title", "unique", 'filter' => ["!=", "status", self::STATUS_DELETED]],
             ["status", "default", "value" => self::STATUS_ACTIVE],
         ]);
     }
