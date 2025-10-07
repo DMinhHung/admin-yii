@@ -6,7 +6,7 @@ use Yii;
 use yii\web\HttpException;
 use app\helpers\ResponseBuilder;
 use app\modules\v1\end_user\product\models\Item;
-use app\modules\v1\end_user\product\models\search\ItemSearch;
+use app\modules\v1\end_user\product\models\search\CartSearch;
 
 
 class FormController extends Controller
@@ -16,7 +16,7 @@ class FormController extends Controller
      */
     public function actionIndex()
     {
-        return ResponseBuilder::json(true, (new ItemSearch())->search(Yii::$app->request->queryParams));
+        return ResponseBuilder::json(true, (new CartSearch())->search(Yii::$app->request->queryParams));
     }
 
     /**

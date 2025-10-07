@@ -4,15 +4,15 @@
 namespace app\modules\v1\admin\banner\models\form;
 
 use Yii;
-use app\modules\v1\admin\brand\models\Brand;
+use app\modules\v1\admin\banner\models\Banner;
 
-class BannerForm extends Brand
+class BannerForm extends Banner
 {
     public function rules()
     {
         return array_merge(parent::rules(), [
-            ["title", "required"],
-            ["title", "unique", 'filter' => ["!=", "status", self::STATUS_DELETED]],
+            ["customer_id", "required"],
+            ["customer_id", "unique", 'filter' => ["!=", "status", self::STATUS_DELETED]],
             ["status", "default", "value" => self::STATUS_ACTIVE],
         ]);
     }
