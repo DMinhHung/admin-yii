@@ -2,6 +2,9 @@
 
 namespace app\modules\v1\end_user\cart\controllers;
 
+use app\modules\v1\end_user\cart\models\Cart;
+use app\modules\v1\end_user\cart\models\CartItem;
+use app\modules\v1\end_user\cart\models\form\CartForm;
 use Yii;
 use yii\web\HttpException;
 use app\helpers\ResponseBuilder;
@@ -24,17 +27,22 @@ class FormController extends Controller
         if ($request->isPost) {
             $data = $request->post();
             if (!empty($data)) {
-                $banner = new BannerForm();
-                $banner->load($data);
-                if ($banner->validate() && $banner->save()) {
-                    return ResponseBuilder::json(true, $banner, "CREATE SUCCESS! ");
+                $cart = new CartForm();
+                $cart->load($data);
+                if ($cart->validate() && $cart->save()) {
+                    $cartItem = new CartItem();
+                    $cartItem->cart_id = $cart->id;
+                    $cartItem->item_id = $data['item_id'] ?? null;
+                    $cartItem->quantity = $data['quantity'] ?? null;
+                    $cartItem->price = $data['price'] ?? null;
+                    $cartItem->save(false);
+                    return ResponseBuilder::json(true, $cart, "CREATE SUCCESS! ");
                 }
-                return ResponseBuilder::json(true, $banner->getErrors(), "VALIDATE FAIL! ");
+                return ResponseBuilder::json(true, $cart->getErrors(), "VALIDATE FAIL! ");
             }
             return ResponseBuilder::json(false, null, "MISING PARAMS! ");
         }
         return ResponseBuilder::json(false, null, "METHOD ALLOW POST! ");
-
     }
 
     public function actionUpdate()
@@ -44,13 +52,13 @@ class FormController extends Controller
             $data = $request->post();
             $id = $request->post('id');
             if (!empty($id)) {
-                $banner = BannerForm::find()->where(['id' => $id])->one();
-                if (!empty($banner)) {
-                    $banner->load($data);
-                    if ($banner->validate() && $banner->save()) {
-                        return ResponseBuilder::json(true, $banner, "UPDATE SUCCESS! ");
+                $cart = CartForm::find()->where(['id' => $id])->one();
+                if (!empty($cart)) {
+                    $cart->load($data);
+                    if ($cart->validate() && $cart->save()) {
+                        return ResponseBuilder::json(true, $cart, "UPDATE SUCCESS! ");
                     }
-                    return ResponseBuilder::json(true, $banner->getErrors(), "VALIDATE FAIL! ");
+                    return ResponseBuilder::json(true, $cart->getErrors(), "VALIDATE FAIL! ");
                 }
                 return ResponseBuilder::json(true, [], "DATA EMPTY! ");
             }
@@ -66,11 +74,11 @@ class FormController extends Controller
             $data = $request->post();
             $id = $data['id'];
             if (!empty($id)) {
-                $banner = Banner::find()->where(['id' => $id])->one();
+                $cart = Cart::find()->where(['id' => $id])->one();
                 if (!empty($banner)) {
-                    $banner->status = Banner::STATUS_DELETED;
-                    $banner->save(false);
-                    return ResponseBuilder::json(true, $banner, "UPDATE SUCCESS! ");
+                    $cart->status = Cart::STATUS_DELETED;
+                    $cart->save(false);
+                    return ResponseBuilder::json(true, $cart, "UPDATE SUCCESS! ");
                 }
                 return ResponseBuilder::json(true, [], "DATA EMPTY! ");
             }
